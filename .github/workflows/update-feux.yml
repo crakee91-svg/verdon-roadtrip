@@ -1,0 +1,35 @@
+name: Actualiser le statut feux
+
+on:
+  schedule:
+    # Toutes les 3h. GitHub peut retarder les crons de quelques minutes en cas de forte charge.
+    - cron: "0 */3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-feux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Génère data/feux.json (best-effort, ne fait jamais échouer le job)
+        run: node update-feux.mjs || echo "update-feux.mjs a échoué, on garde data/feux.json existant"
+
+      - name: Commit si data/feux.json a changé
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- data/feux.json; then
+            git add data/feux.json
+            git commit -m "Actualisation auto du statut feux"
+            git push
+          else
+            echo "Rien à mettre à jour."
+          fi

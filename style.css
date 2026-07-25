@@ -96,6 +96,18 @@ a{ color: var(--turquoise-dark); }
 .fb-dot.ok{ background: var(--ok); }
 .fb-dot.vigilance{ background: var(--vigilance); }
 .fb-dot.alerte{ background: var(--alerte); }
+.fb-refresh{
+  background: rgba(255,255,255,.15);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 999px;
+  padding: .2rem .65rem;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.fb-refresh:disabled{ opacity: .6; }
+.fb-refresh-msg{ font-size: .78rem; opacity: .9; }
 .fb-liens{
   display: flex;
   flex-wrap: wrap;
@@ -271,6 +283,17 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
 .badge.a-reserver{ background: #fef3c7; color: #92400e; }
 .badge.plan-b-actif{ background: #e0e7ff; color: #3730a3; }
 .badge.annule{ background: #e5e7eb; color: #4b5563; }
+
+.alerte-jour{
+  background: #fef2f2;
+  border: 2px solid var(--alerte);
+  color: #7f1d1d;
+  border-radius: 10px;
+  padding: .6rem .75rem;
+  font-size: .88rem;
+  font-weight: 600;
+  margin-bottom: .8rem;
+}
 
 .zone-badges{ display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .7rem; }
 .zone-badge{

@@ -41,7 +41,10 @@
   }
 
   // ---------- Fire banner ----------
-  function renderFireBanner(fireStatus) {
+  // `onRefresh` re-fetches data/feux.json (published by update-feux.mjs / la GitHub Action).
+  // Une vraie lecture live de feuxdeforet.fr depuis le navigateur est bloquée par leur
+  // politique CORS (testé) : ce bouton relit donc la dernière donnée PUBLIÉE, pas le site en direct.
+  function renderFireBanner(fireStatus, onRefresh) {
     const el = document.getElementById("fire-banner");
     if (!fireStatus) { el.style.display = "none"; return; }
 
@@ -64,15 +67,37 @@
         <strong>🔥 Risque feux</strong>
         <span class="fb-maj">MAJ : ${escapeHTML(fireStatus.derniereMaj)}</span>
         ${stale ? '<span class="fb-stale">⚠️ à rafraîchir</span>' : ""}
+        <button type="button" class="fb-refresh" id="fb-refresh-btn">🔄 Actualiser</button>
+        <span class="fb-refresh-msg" id="fb-refresh-msg"></span>
       </div>
       <div class="fb-zones">${zonesHTML}</div>
       <div class="fb-liens">${liensHTML}</div>
-      <div class="fb-rappel">feuxdeforet.fr = feux EN COURS · risque-prevention-incendie.fr = massifs OUVERTS/FERMÉS du jour (c'est elle qui décide si on randonne).</div>
+      <div class="fb-rappel">feuxdeforet.fr = feux EN COURS · risque-prevention-incendie.fr = massifs OUVERTS/FERMÉS du jour (c'est elle qui décide si on randonne). Le bouton relit la dernière donnée publiée (mise à jour automatiquement plusieurs fois par jour) — pour une vérif à la minute près, utilisez les liens ci-dessus.</div>
     `;
 
     // Footer mirrors the live links so they're reachable from the bottom of the page too.
     const footer = document.getElementById("footer-liens-feux");
     if (footer) footer.innerHTML = liensHTML;
+
+    const btn = document.getElementById("fb-refresh-btn");
+    const msg = document.getElementById("fb-refresh-msg");
+    if (btn && onRefresh) {
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        btn.textContent = "🔄 …";
+        msg.textContent = "";
+        const result = await onRefresh();
+        if (result === "updated") {
+          msg.textContent = "✅ Mis à jour";
+        } else if (result === "unchanged") {
+          msg.textContent = "Déjà à jour";
+        } else {
+          msg.textContent = "⚠️ Hors-ligne ou pas de données publiées — ouvrez les liens ci-dessus";
+        }
+        btn.disabled = false;
+        btn.textContent = "🔄 Actualiser";
+      });
+    }
   }
 
   // ---------- Hero ----------
@@ -103,6 +128,7 @@
       const itemsHTML = (j.items || []).map((it) => `
         <li><span class="heure">${escapeHTML(it.heure)}</span><span class="texte">${escapeHTML(it.texte)}</span></li>
       `).join("");
+      const alerteHTML = j.alerte ? `<div class="alerte-jour">⚠️ ${escapeHTML(j.alerte)}</div>` : "";
       const nuitHTML = j.nuit ? `<div class="nuit-info">${escapeHTML(j.nuit)}</div>` : "";
       const planBHTML = j.planB ? `
         <details class="planb">
@@ -119,6 +145,7 @@
               <span class="badge ${statutClass}">${escapeHTML(statutLabel)}</span>
             </div>
             ${zoneBadgesHTML(j.zones, zonesById)}
+            ${alerteHTML}
             <ul class="timeline">${itemsHTML}</ul>
             ${nuitHTML}
             ${planBHTML}
@@ -234,6 +261,23 @@
     `).join("");
   }
 
+  // Essaie de lire data/feux.json (publié par update-feux.mjs, à la main ou via la
+  // GitHub Action planifiée). Renvoie "updated" / "unchanged" / "failed".
+  async function tryLoadPublishedFireStatus(data) {
+    try {
+      const res = await fetch("data/feux.json", { cache: "no-store" });
+      if (!res.ok) return "failed";
+      const feux = await res.json();
+      if (!feux || !feux.derniereMaj) return "failed";
+      const changed = JSON.stringify(feux) !== JSON.stringify(data.fireStatus);
+      data.fireStatus = feux;
+      return changed ? "updated" : "unchanged";
+    } catch (e) {
+      // hors-ligne, ouvert en file://, ou fichier absent : on garde la donnée actuelle
+      return "failed";
+    }
+  }
+
   // ---------- Init ----------
   async function init() {
     const data = window.SITE_DATA;
@@ -242,22 +286,21 @@
       return;
     }
 
-    // Si data/feux.json existe (généré par update-feux.mjs) et est plus récent, on l'utilise.
-    // Sinon on retombe silencieusement sur data.js — voir README.md.
-    try {
-      const res = await fetch("data/feux.json", { cache: "no-store" });
-      if (res.ok) {
-        const feux = await res.json();
-        if (feux && feux.derniereMaj) data.fireStatus = feux;
-      }
-    } catch (e) { /* hors-ligne, ouvert en file://, ou fichier absent : on garde data.js */ }
+    await tryLoadPublishedFireStatus(data);
 
-    const zonesById = {};
-    ((data.fireStatus && data.fireStatus.zones) || []).forEach((z) => { zonesById[z.id] = z; });
+    function rerenderFireDependent() {
+      const zonesById = {};
+      ((data.fireStatus && data.fireStatus.zones) || []).forEach((z) => { zonesById[z.id] = z; });
+      renderFireBanner(data.fireStatus, async () => {
+        const result = await tryLoadPublishedFireStatus(data);
+        rerenderFireDependent();
+        return result;
+      });
+      renderJours(data.jours, zonesById);
+    }
 
-    renderFireBanner(data.fireStatus);
+    rerenderFireDependent();
     renderHero(data.meta);
-    renderJours(data.jours, zonesById);
     renderSpotsBonus(data.spotsBonus);
     renderBaignade(data.baignade);
     renderRandos(data.randos, data.randosLiensGeneraux);

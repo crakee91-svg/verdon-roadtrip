@@ -49,13 +49,14 @@ const SITE_DATA = {
       statut: "a-reserver",
       images: ["images/samson.jpg", "images/saint-maurin.jpg", "images/galetas.jpg"],
       zones: ["gorges_04", "lac_var"],
+      alerte: "Camping du Galetas FERMÉ en 2026 (annonce mairie d'Aiguines, 05/05/2026 : mise aux normes sécurité). La plage et le kayak du Galetas restent a priori accessibles au public, mais ne comptez pas dessus pour dormir — voir alternative ci-dessous.",
       items: [
         { heure: "08h00", texte: "Couloir Samson (Point Sublime) : 2,8 km AR, 2h, facile. Tunnels (le Baou : 670 m de noir complet) → lampe + veste + chaussures d'eau. Vautours. Baignade interdite dans le canyon." },
         { heure: "11h00", texte: "Route des Crêtes en voiture (3-4 premiers belvédères)" },
         { heure: "14h30", texte: "Cascades de Saint-Maurin : sentier bas balisage jaune, 1h30. Cascades de tuf, vasques turquoise, grottes troglodytes. RÉSERVE : baignade interdite." },
-        { heure: "17h30", texte: "Camping du Galetas (Aiguines) + baignade plage du Galetas (foule partie)" }
+        { heure: "17h30", texte: "Baignade plage du Galetas (foule partie) puis route vers le camping du soir (~20 min, voir alternative)" }
       ],
-      nuit: "Camping municipal du Galetas (Aiguines), 100 m du lac — n° via mairie",
+      nuit: "Camping du Galetas FERMÉ en 2026 → Camping Les Ruisses (Les Salles-sur-Verdon), bord du lac — 04 98 10 28 15",
       planB: "Canicule → sauter Saint-Maurin, sieste, baignade prolongée."
     },
     {
@@ -70,7 +71,7 @@ const SITE_DATA = {
         { heure: "15h00", texte: "Plage de Bauduen : galets blancs, sauts de rochers, sieste" },
         { heure: "18h30", texte: "Camping du soir, apéro plage" }
       ],
-      nuit: "Les Roches (Bauduen) ou Les Ruisses (Les Salles) — n° via mairies",
+      nuit: "Camping Les Roches (Sainte-Croix-du-Verdon) — 04 92 77 78 99, ou Les Ruisses (Les Salles-sur-Verdon) — 04 98 10 28 15",
       planB: "Bauduen bondé → criques de Sainte-Croix-du-Verdon, ou lac d'Artignosc (voir spots bonus)."
     },
     {
@@ -85,7 +86,7 @@ const SITE_DATA = {
         { heure: "14h00", texte: "Calanques d'Esparron : criques turquoise à 10 min à pied, masque/tuba. LE spot du séjour." },
         { heure: "17h30", texte: "SI 4 JOURS : retour Andon (Quinson → Montmeyan → Aups → Comps, ~2h15, essence à Aups). SI 5 JOURS : nuit à Esparron ou Quinson." }
       ],
-      nuit: null,
+      nuit: "SI 5 JOURS : Camping La Grangeonne (Esparron) — 04 92 77 16 87, ou Camping Le Lavandin (Esparron) — 04 92 77 41 31",
       planB: "Flemme → kayak/bateau électrique Montmeyan-plage (04 92 74 40 76), baignades côté Esparron."
     },
     {
@@ -211,11 +212,14 @@ const SITE_DATA = {
   ],
 
   contacts: [
-    { qui: "Camping Verdon Carajuan", quoi: "Nuit 1", numero: "04 86 62 00 26" },
-    { qui: "Camping Le Grand Canyon (La Palud)", quoi: "Secours nuit 2", numero: "04 92 77 38 13" },
-    { qui: "Camping du Galetas (Aiguines)", quoi: "Nuit 2", numero: "à compléter (mairie d'Aiguines)" },
-    { qui: "Les Roches (Bauduen) / Les Ruisses (Les Salles)", quoi: "Nuit 3", numero: "à compléter (mairies)" },
-    { qui: "Campings Esparron / Quinson", quoi: "Nuit 4 option", numero: "sur place ou 2-3 j avant" },
+    { qui: "Camping Verdon Carajuan (Rougon)", quoi: "Nuit 1", numero: "04 86 62 00 26" },
+    { qui: "Camping Le Grand Canyon (La Palud)", quoi: "Secours nuit 1-2", numero: "04 92 77 38 13" },
+    { qui: "Camping du Galetas (Aiguines)", quoi: "⚠️ FERMÉ 2026 (mise aux normes) — ne pas compter dessus", numero: "—" },
+    { qui: "Camping Les Ruisses (Les Salles-sur-Verdon)", quoi: "Nuit 2 ou 3 — remplace le Galetas, bord du lac", numero: "04 98 10 28 15" },
+    { qui: "Camping Les Roches (Sainte-Croix-du-Verdon)", quoi: "Nuit 3 — bord du lac", numero: "04 92 77 78 99" },
+    { qui: "Camping Le Lac (Bauduen)", quoi: "Nuit 3 option — 1 étoile, simple", numero: "à confirmer sur place / mairie de Bauduen" },
+    { qui: "Camping La Grangeonne (Esparron)", quoi: "Nuit 4 option", numero: "04 92 77 16 87" },
+    { qui: "Camping Le Lavandin (Esparron)", quoi: "Nuit 4 option", numero: "04 92 77 41 31" },
     { qui: "Kayak/bateau électrique Montmeyan-plage", quoi: "J4-J5", numero: "04 92 74 40 76" },
     { qui: "Urgence incendie", quoi: "—", numero: "18 ou 112" }
   ],

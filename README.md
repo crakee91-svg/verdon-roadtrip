@@ -60,23 +60,32 @@ vers les sources officielles. Si `derniereMaj` date de plus de 48h, le site affi
 automatiquement "⚠️ à rafraîchir".
 
 **Mise à jour manuelle (par défaut)** : éditez `fireStatus` dans `data.js`, c'est la
-seule source de vérité utilisée si `data/feux.json` n'existe pas.
+donnée de secours toujours utilisée tant que `data/feux.json` n'existe pas ou n'a pas
+encore été généré.
 
-**Mise à jour semi-auto (optionnelle)** : depuis un ordinateur avec Node.js 18+,
-lancez :
+**Bouton "🔄 Actualiser" dans le bandeau** : relit `data/feux.json` (la dernière
+donnée *publiée*, pas le site source en direct — feuxdeforet.fr ne renvoie pas d'en-
+têtes CORS, un navigateur ne peut donc pas aller chercher leurs données lui-même
+depuis un autre domaine, c'est une limitation de leur site, pas du nôtre).
+
+**Mise à jour automatique (GitHub Action, déjà en place)** : `.github/workflows/update-feux.yml`
+exécute `update-feux.mjs` toutes les 3h (+ déclenchement manuel possible depuis l'onglet
+"Actions" du dépôt sur github.com) et pousse `data/feux.json` si le contenu a changé.
+Aucune action nécessaire de votre part — le bouton du site reflète alors cette donnée
+rafraîchie automatiquement en arrière-plan.
+
+**Lancer la génération à la main** (optionnel, depuis un ordinateur avec Node.js 18+) :
 ```
 node update-feux.mjs
 ```
 Ça télécharge les fils Var/04 de feuxdeforet.fr, essaie d'en extraire les feux "en
-cours", et écrit `data/feux.json`. Le site le lit en priorité s'il est hébergé (le
-`fetch` local est bloqué par les navigateurs en `file://`, donc en ouverture directe
-d'`index.html` le site retombe automatiquement sur `data.js` — c'est normal et voulu).
-Si le site source change de structure et que le script ne trouve rien, il ne casse
-rien : `data/feux.json` n'est simplement pas mis à jour et l'ancien statut reste affiché.
+cours", et écrit `data/feux.json`. Si le site source change de structure et que le
+script ne trouve rien, il ne casse rien : `data/feux.json` n'est simplement pas mis à
+jour et l'ancien statut reste affiché.
 
-Rappel : ce script est un complément, pas un remplacement de la vérif' humaine — en
-cas de doute le matin même, consultez toujours risque-prevention-incendie.fr (liens
-dans le bandeau du site).
+Rappel : ce système (bouton + Action) est un complément, pas un remplacement de la
+vérif' humaine — en cas de doute le matin même, consultez toujours
+risque-prevention-incendie.fr (liens dans le bandeau du site).
 
 ## Ajouter les photos
 
