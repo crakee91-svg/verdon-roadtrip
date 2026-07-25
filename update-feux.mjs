@@ -52,7 +52,7 @@ function loadExistingFireStatus() {
   // les zones/libellés existants en fallback si le scraping ne trouve rien pour un département.
   // Robuste à la mise en forme du fichier (pas de dépendance à l'indentation).
   const dataJsPath = join(__dirname, "data.js");
-  const src = readFileSync(dataJsPath, "utf8").replace(/^const SITE_DATA\s*=/m, "return");
+  const src = readFileSync(dataJsPath, "utf8").replace(/^window\.SITE_DATA\s*=/m, "return");
   try {
     // eslint-disable-next-line no-new-func
     const site = new Function(src)();

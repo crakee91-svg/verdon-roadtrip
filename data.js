@@ -6,7 +6,7 @@
   - Ne touche pas index.html / style.css / script.js : ils lisent ces données automatiquement.
   - Respecte la syntaxe JS (virgules, guillemets) sinon le site plantera au chargement.
 */
-const SITE_DATA = {
+window.SITE_DATA = {
 
   meta: {
     titre: "Road Trip Verdon",
