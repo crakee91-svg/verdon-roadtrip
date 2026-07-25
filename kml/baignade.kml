@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Baignade</name>
+<Placemark>
+<name>Calanques d'Esparron</name>
+<description>Criques turquoise, 10 min à pied. LE spot. Masque/tuba.</description>
+<Point><coordinates>5.9632,43.7263</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Plage de Carajuan</name>
+<description>Rivière au camping. Lâchers EDF à vérifier !</description>
+<Point><coordinates>6.4375,43.7953</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Vasques du pont de Tusset</name>
+<description>Pont XVIIe + vasques. 15 min du parking Samson.</description>
+<Point><coordinates>6.4150,43.7940</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Criques de Sainte-Croix-du-Verdon</name>
+<description>Sous le village, méconnues.</description>
+<Point><coordinates>6.1509,43.7657</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Plage de Bauduen</name>
+<description>Galets blancs, sauts de rochers. Viser 15h+.</description>
+<Point><coordinates>6.1772,43.7316</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Plage du Galetas</name>
+<description>Carte postale. Avant 9h30 ou après 17h30 SEULEMENT.</description>
+<Point><coordinates>6.2495,43.8017</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Lac de Montpezat</name>
+<description>Récompense de la rando Baudinard.</description>
+<Point><coordinates>6.0700,43.7050</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Lac d'Artignosc</name>
+<description>Plan B calme, base nautique.</description>
+<Point><coordinates>6.0855,43.7030</coordinates></Point>
+</Placemark>
+</Document>
+</kml>

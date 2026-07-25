@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Points de vue</name>
+<Placemark>
+<name>Point Sublime</name>
+<description>Belvédère mythique, entrée du canyon.</description>
+<Point><coordinates>6.3981,43.7935</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Route des Crêtes (1er belvédère)</name>
+<description>Boucle sens unique, vautours.</description>
+<Point><coordinates>6.3600,43.7750</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Balcons de la Mescla</name>
+<description>Plus belle vue des gorges. Arrêt retour J5.</description>
+<Point><coordinates>6.3818,43.7414</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Moustiers-Sainte-Marie</name>
+<description>Village + étoile suspendue.</description>
+<Point><coordinates>6.2215,43.8457</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Aiguines village</name>
+<description>Vue plongeante lac, soirée J2.</description>
+<Point><coordinates>6.2440,43.7772</coordinates></Point>
+</Placemark>
+</Document>
+</kml>

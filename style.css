@@ -308,6 +308,70 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
   padding: .15rem .55rem;
 }
 
+/* ============ Section Carte ============ */
+.carte-embed-wrap{
+  position: relative;
+  width: 100%;
+  height: 450px;
+  max-height: 65vh;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: .8rem;
+}
+.carte-embed-wrap iframe{ width: 100%; height: 100%; border: 0; display: block; }
+.carte-placeholder{
+  background: linear-gradient(135deg, var(--turquoise) 0%, var(--emerald) 55%, var(--turquoise-dark) 100%);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 2rem 1.2rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: .8rem;
+}
+.carte-placeholder a{ color: var(--white); text-decoration: underline; }
+
+.carte-legende{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+.carte-legende-item{
+  background: var(--white);
+  border: 1px solid var(--sable-dark);
+  border-radius: 999px;
+  padding: .3rem .7rem;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.carte-calque{ margin-top: 1.2rem; }
+.carte-calque h3{ margin-bottom: .5rem; }
+.carte-liste-points{ list-style: none; margin: 0; padding: 0; }
+.carte-liste-points li{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .1rem .8rem;
+  background: var(--white);
+  border: 1px solid var(--sable);
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  margin-bottom: .5rem;
+}
+.carte-point-nom{ font-weight: 700; font-size: .92rem; grid-column: 1; }
+.carte-point-desc{ grid-column: 1; font-size: .85rem; color: var(--ink-soft); }
+.carte-point-lien{
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: .8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--turquoise-dark);
+  text-decoration: none;
+}
+
 /* ============ Section Feux ============ */
 .zone-detail-liste{ display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.2rem; }
 .zone-detail{
@@ -351,6 +415,21 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
   font-weight: 600;
 }
 .nuit-info::before{ content: "⛺ "; }
+
+.gps-boutons{ display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
+.btn-gps{
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  background: var(--turquoise);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: .85rem;
+  padding: .55rem .9rem;
+  border-radius: 999px;
+}
+.btn-gps:active{ background: var(--turquoise-dark); }
 
 details.planb{
   margin-top: .8rem;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Bonus / Plans B</name>
+<Placemark>
+<name>Sillans-la-Cascade</name>
+<description>Chute 42 m. BAIGNADE INTERDITE. Détour retour J4.</description>
+<Point><coordinates>6.1858,43.5650</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Kayak Montmeyan-plage</name>
+<description>Kayak/bateau élec ~25 €/2h. 04 92 74 40 76</description>
+<Point><coordinates>6.0530,43.6880</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Aups (essence + ravitaillement)</name>
+<description>Étape retour.</description>
+<Point><coordinates>6.2243,43.6280</coordinates></Point>
+</Placemark>
+</Document>
+</kml>

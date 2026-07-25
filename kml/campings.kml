@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Campings</name>
+<Placemark>
+<name>Verdon Carajuan (nuit 1)</name>
+<description>Municipal bord de rivière. 04 86 62 00 26</description>
+<Point><coordinates>6.4375,43.7953</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>De l'Aigle, Aiguines (nuit 2)</name>
+<description>Terrasses vue lac. Municipal Galetas FERMÉ.</description>
+<Point><coordinates>6.2440,43.7772</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Chanteraine, Aiguines (nuit 2 alt.)</name>
+<description>Tentes à 500 m du lac.</description>
+<Point><coordinates>6.2440,43.7790</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>La Source, Les Salles (nuit 3)</name>
+<description>Bord du lac. 04 94 70 20 40</description>
+<Point><coordinates>6.2101,43.7740</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Les Roches, Ste-Croix (nuit 3 alt.)</name>
+<description>Municipal vue lac. 04 92 77 78 99</description>
+<Point><coordinates>6.1509,43.7670</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Le Grand Canyon, La Palud (secours)</name>
+<description>04 92 77 38 13</description>
+<Point><coordinates>6.3488,43.7804</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Campings Esparron/Quinson (nuit 4 opt.)</name>
+<description>Appeler 2-3 j avant.</description>
+<Point><coordinates>5.9632,43.7270</coordinates></Point>
+</Placemark>
+</Document>
+</kml>

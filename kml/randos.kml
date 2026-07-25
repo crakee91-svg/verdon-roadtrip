@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Randos</name>
+<Placemark>
+<name>Couloir Samson (départ Point Sublime)</name>
+<description>2h AR facile. LAMPE pour les tunnels.</description>
+<Point><coordinates>6.3981,43.7935</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Cascades de Saint-Maurin</name>
+<description>1h30. Cascades de tuf + grottes. Baignade interdite.</description>
+<Point><coordinates>6.2905,43.7995</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Garde-canal (départ Musée Quinson)</name>
+<description>10 km, 3h. N°1 AllTrails du parc. Lampe.</description>
+<Point><coordinates>6.0397,43.6947</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Canyon de Baudinard (départ Montmeyan-plage)</name>
+<description>2h30-3h. Massif Var : GO/NO-GO le matin.</description>
+<Point><coordinates>6.0530,43.6880</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Tour du village de Moustiers</name>
+<description>1h. Chapelle + vue lac.</description>
+<Point><coordinates>6.2215,43.8457</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Gorges de Trévans (bonus)</name>
+<description>Plan anti-feu/anti-foule, 40 min au nord.</description>
+<Point><coordinates>6.1900,44.0000</coordinates></Point>
+</Placemark>
+</Document>
+</kml>

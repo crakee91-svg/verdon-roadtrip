@@ -130,6 +130,10 @@
       `).join("");
       const alerteHTML = j.alerte ? `<div class="alerte-jour">⚠️ ${escapeHTML(j.alerte)}</div>` : "";
       const nuitHTML = j.nuit ? `<div class="nuit-info">${escapeHTML(j.nuit)}</div>` : "";
+      const gpsHTML = (j.gps && j.gps.length) ? `
+        <div class="gps-boutons">${j.gps.map((g) =>
+          `<a class="btn-gps" href="${escapeHTML(g.url)}" target="_blank" rel="noopener">${escapeHTML(g.label)}</a>`
+        ).join("")}</div>` : "";
       const planBHTML = j.planB ? `
         <details class="planb">
           <summary>Voir le plan B</summary>
@@ -148,10 +152,52 @@
             ${alerteHTML}
             <ul class="timeline">${itemsHTML}</ul>
             ${nuitHTML}
+            ${gpsHTML}
             ${planBHTML}
           </div>
         </article>`;
     }).join("");
+  }
+
+  // ---------- Carte ----------
+  function renderCarte(carte) {
+    if (!carte) return;
+
+    const embedEl = document.getElementById("carte-embed");
+    if (carte.embedUrl) {
+      const openUrl = carte.embedUrl.includes("/embed") ? carte.embedUrl.replace("/embed", "/viewer") : carte.embedUrl;
+      embedEl.innerHTML = `
+        <div class="carte-embed-wrap">
+          <iframe src="${escapeHTML(carte.embedUrl)}" loading="lazy" title="Carte du road trip Verdon"></iframe>
+        </div>
+        <a class="btn-gps" href="${escapeHTML(openUrl)}" target="_blank" rel="noopener">🗺️ Ouvrir dans Google Maps</a>`;
+    } else {
+      embedEl.innerHTML = `
+        <div class="carte-placeholder">
+          🗺️ Carte en préparation — <a href="https://mymaps.google.com" target="_blank" rel="noopener">créer/consulter sur mymaps.google.com</a>
+        </div>`;
+    }
+
+    const legendeEl = document.getElementById("carte-legende");
+    legendeEl.innerHTML = carte.calques.map((c) =>
+      `<span class="carte-legende-item">${c.emoji} ${escapeHTML(c.nom)}</span>`
+    ).join("");
+
+    const pointsEl = document.getElementById("carte-points");
+    pointsEl.innerHTML = carte.calques.map((c) => `
+      <div class="carte-calque">
+        <h3>${c.emoji} ${escapeHTML(c.nom)}</h3>
+        <ul class="carte-liste-points">
+          ${c.points.map((p) => `
+            <li>
+              <span class="carte-point-nom">${escapeHTML(p.nom)}</span>
+              <span class="carte-point-desc">${escapeHTML(p.description)}</span>
+              <a class="carte-point-lien" href="https://www.google.com/maps?q=${Number(p.lat)},${Number(p.lon)}" target="_blank" rel="noopener">📍 Ouvrir</a>
+            </li>
+          `).join("")}
+        </ul>
+      </div>
+    `).join("");
   }
 
   // ---------- Baignade ----------
@@ -340,6 +386,7 @@
 
     rerenderFireDependent();
     renderHero(data.meta);
+    renderCarte(data.carte);
     renderBaignade(data.baignade);
     renderRandos(data.randos, data.randosLiensGeneraux);
     renderCampings(data.campings);

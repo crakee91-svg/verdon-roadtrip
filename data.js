@@ -41,7 +41,10 @@ window.SITE_DATA = {
         { heure: "19h00", texte: "Repas froid, coucher de soleil sur les falaises de Rougon" }
       ],
       nuit: "Camping municipal Verdon Carajuan — 04 86 62 00 26",
-      planB: "Lâchers EDF → couloir Samson cet aprem, lac demain matin."
+      planB: "Lâchers EDF → couloir Samson cet aprem, lac demain matin.",
+      gps: [
+        { label: "🧭 GPS du jour", url: "https://www.google.com/maps/dir/?api=1&origin=Andon&destination=Camping+Verdon+Carajuan+Rougon&travelmode=driving" }
+      ]
     },
     {
       id: "j2",
@@ -57,7 +60,10 @@ window.SITE_DATA = {
         { heure: "17h30", texte: "Installation camping Aiguines + baignade plage du Galetas (à 5 min du camping)" }
       ],
       nuit: "Camping de l'Aigle (Aiguines), terrasses vue lac — réservation : campasun.eu/aigle. Alternative : Domaine de Chanteraine, 500 m du lac.",
-      planB: "Canicule → sauter Saint-Maurin, sieste, baignade longue."
+      planB: "Canicule → sauter Saint-Maurin, sieste, baignade longue.",
+      gps: [
+        { label: "🧭 GPS du jour", url: "https://www.google.com/maps/dir/?api=1&origin=Camping+Verdon+Carajuan+Rougon&destination=Aiguines&waypoints=Point+Sublime+Rougon%7CLa+Palud-sur-Verdon&travelmode=driving" }
+      ]
     },
     {
       id: "j3",
@@ -72,7 +78,10 @@ window.SITE_DATA = {
         { heure: "18h30", texte: "Camping du soir, apéro plage" }
       ],
       nuit: "La Source ★★★★ (Les Salles, bord du lac) — 04 94 70 20 40, ou Les Roches (Sainte-Croix-du-Verdon) — 04 92 77 78 99. Petits budgets : Les Roux 04 92 77 75 83 / Les Truffières 04 92 77 87 91 (Sainte-Croix).",
-      planB: "Bauduen bondé → criques de Sainte-Croix-du-Verdon (sur le trajet du soir si nuit aux Roches)."
+      planB: "Bauduen bondé → criques de Sainte-Croix-du-Verdon (sur le trajet du soir si nuit aux Roches).",
+      gps: [
+        { label: "🧭 GPS du jour", url: "https://www.google.com/maps/dir/?api=1&origin=Aiguines&destination=Les+Salles-sur-Verdon&waypoints=Pont+du+Galetas%7CMoustiers-Sainte-Marie%7CBauduen&travelmode=driving" }
+      ]
     },
     {
       id: "j4",
@@ -87,7 +96,11 @@ window.SITE_DATA = {
         { heure: "17h30", texte: "SI 4 JOURS : retour Andon (Quinson → Montmeyan → Aups → Comps, ~2h15, essence à Aups). SI 5 JOURS : nuit à Esparron ou Quinson." }
       ],
       nuit: "SI 5 JOURS : campings de village (Esparron / Quinson), réserver 2-3 j avant. Ex. : La Grangeonne 04 92 77 16 87, Le Lavandin 04 92 77 41 31 (Esparron).",
-      planB: "Flemme → kayak/bateau électrique Montmeyan-plage (04 92 74 40 76)."
+      planB: "Flemme → kayak/bateau électrique Montmeyan-plage (04 92 74 40 76).",
+      gps: [
+        { label: "🧭 GPS du jour", url: "https://www.google.com/maps/dir/?api=1&origin=Les+Salles-sur-Verdon&destination=Esparron-de-Verdon&waypoints=Quinson&travelmode=driving" },
+        { label: "🧭 GPS retour direct (si 4 jours)", url: "https://www.google.com/maps/dir/?api=1&origin=Esparron-de-Verdon&destination=Andon&waypoints=Aups&travelmode=driving" }
+      ]
     },
     {
       id: "j5",
@@ -101,9 +114,74 @@ window.SITE_DATA = {
         { heure: "17h00", texte: "Comps-sur-Artuby → Andon — arrivée ~17h pour l'apéro" }
       ],
       nuit: null,
-      planB: "Massif fermé → matinée calanques d'Esparron, retour direct par Aups."
+      planB: "Massif fermé → matinée calanques d'Esparron, retour direct par Aups.",
+      gps: [
+        { label: "🧭 GPS retour panoramique", url: "https://www.google.com/maps/dir/?api=1&origin=Esparron-de-Verdon&destination=Andon&waypoints=Montmeyan%7CAups%7CAiguines%7CBalcons+de+la+Mescla%7CComps-sur-Artuby&travelmode=driving" }
+      ]
     }
   ],
+
+  // Carte Google My Maps (voir MAPS-IMPORT.md pour la générer et remplir embedUrl).
+  // Tant que embedUrl est vide, le site affiche un encart "Carte en préparation".
+  carte: {
+    embedUrl: "",
+    calques: [
+      {
+        emoji: "🔵", nom: "Baignade",
+        points: [
+          { nom: "Calanques d'Esparron", description: "Criques turquoise, 10 min à pied. LE spot. Masque/tuba.", lat: 43.7263, lon: 5.9632 },
+          { nom: "Plage de Carajuan", description: "Rivière au camping. Lâchers EDF à vérifier !", lat: 43.7953, lon: 6.4375 },
+          { nom: "Vasques du pont de Tusset", description: "Pont XVIIe + vasques. 15 min du parking Samson.", lat: 43.7940, lon: 6.4150 },
+          { nom: "Criques de Sainte-Croix-du-Verdon", description: "Sous le village, méconnues.", lat: 43.7657, lon: 6.1509 },
+          { nom: "Plage de Bauduen", description: "Galets blancs, sauts de rochers. Viser 15h+.", lat: 43.7316, lon: 6.1772 },
+          { nom: "Plage du Galetas", description: "Carte postale. Avant 9h30 ou après 17h30 SEULEMENT.", lat: 43.8017, lon: 6.2495 },
+          { nom: "Lac de Montpezat", description: "Récompense de la rando Baudinard.", lat: 43.7050, lon: 6.0700 },
+          { nom: "Lac d'Artignosc", description: "Plan B calme, base nautique.", lat: 43.7030, lon: 6.0855 }
+        ]
+      },
+      {
+        emoji: "🟢", nom: "Randos",
+        points: [
+          { nom: "Couloir Samson (départ Point Sublime)", description: "2h AR facile. LAMPE pour les tunnels.", lat: 43.7935, lon: 6.3981 },
+          { nom: "Cascades de Saint-Maurin", description: "1h30. Cascades de tuf + grottes. Baignade interdite.", lat: 43.7995, lon: 6.2905 },
+          { nom: "Garde-canal (départ Musée Quinson)", description: "10 km, 3h. N°1 AllTrails du parc. Lampe.", lat: 43.6947, lon: 6.0397 },
+          { nom: "Canyon de Baudinard (départ Montmeyan-plage)", description: "2h30-3h. Massif Var : GO/NO-GO le matin.", lat: 43.6880, lon: 6.0530 },
+          { nom: "Tour du village de Moustiers", description: "1h. Chapelle + vue lac.", lat: 43.8457, lon: 6.2215 },
+          { nom: "Gorges de Trévans (bonus)", description: "Plan anti-feu/anti-foule, 40 min au nord.", lat: 44.0000, lon: 6.1900 }
+        ]
+      },
+      {
+        emoji: "🟡", nom: "Campings",
+        points: [
+          { nom: "Verdon Carajuan (nuit 1)", description: "Municipal bord de rivière. 04 86 62 00 26", lat: 43.7953, lon: 6.4375 },
+          { nom: "De l'Aigle, Aiguines (nuit 2)", description: "Terrasses vue lac. Municipal Galetas FERMÉ.", lat: 43.7772, lon: 6.2440 },
+          { nom: "Chanteraine, Aiguines (nuit 2 alt.)", description: "Tentes à 500 m du lac.", lat: 43.7790, lon: 6.2440 },
+          { nom: "La Source, Les Salles (nuit 3)", description: "Bord du lac. 04 94 70 20 40", lat: 43.7740, lon: 6.2101 },
+          { nom: "Les Roches, Ste-Croix (nuit 3 alt.)", description: "Municipal vue lac. 04 92 77 78 99", lat: 43.7670, lon: 6.1509 },
+          { nom: "Le Grand Canyon, La Palud (secours)", description: "04 92 77 38 13", lat: 43.7804, lon: 6.3488 },
+          { nom: "Campings Esparron/Quinson (nuit 4 opt.)", description: "Appeler 2-3 j avant.", lat: 43.7270, lon: 5.9632 }
+        ]
+      },
+      {
+        emoji: "🟣", nom: "Points de vue",
+        points: [
+          { nom: "Point Sublime", description: "Belvédère mythique, entrée du canyon.", lat: 43.7935, lon: 6.3981 },
+          { nom: "Route des Crêtes (1er belvédère)", description: "Boucle sens unique, vautours.", lat: 43.7750, lon: 6.3600 },
+          { nom: "Balcons de la Mescla", description: "Plus belle vue des gorges. Arrêt retour J5.", lat: 43.7414, lon: 6.3818 },
+          { nom: "Moustiers-Sainte-Marie", description: "Village + étoile suspendue.", lat: 43.8457, lon: 6.2215 },
+          { nom: "Aiguines village", description: "Vue plongeante lac, soirée J2.", lat: 43.7772, lon: 6.2440 }
+        ]
+      },
+      {
+        emoji: "⚪", nom: "Bonus / plans B",
+        points: [
+          { nom: "Sillans-la-Cascade", description: "Chute 42 m. BAIGNADE INTERDITE. Détour retour J4.", lat: 43.5650, lon: 6.1858 },
+          { nom: "Kayak Montmeyan-plage", description: "Kayak/bateau élec ~25 €/2h. 04 92 74 40 76", lat: 43.6880, lon: 6.0530 },
+          { nom: "Aups (essence + ravitaillement)", description: "Étape retour.", lat: 43.6280, lon: 6.2243 }
+        ]
+      }
+    ]
+  },
 
   // baignade.ok: true | false | null (null = "selon niveau d'eau" / occasionnel)
   randos: [
