@@ -390,6 +390,9 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
   margin: 1rem 0;
 }
 .carte-legende-item{
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
   background: var(--white);
   border: 1px solid var(--sable-dark);
   border-radius: 999px;
@@ -398,8 +401,47 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
   font-weight: 700;
 }
 
+/* Récap des étapes jour par jour */
+.etape-jour{
+  background: var(--white);
+  border: 1px solid var(--sable);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: .8rem .9rem;
+  margin-bottom: .8rem;
+}
+.etape-jour-head{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .3rem .8rem;
+  margin-bottom: .6rem;
+}
+.etape-jour-head a{ text-decoration: none; color: var(--ink); font-size: .95rem; }
+.etape-jour-km{
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.etape-chips{ display: flex; flex-wrap: wrap; gap: .4rem; }
+.etape-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  background: var(--offwhite);
+  border: 2px solid var(--sable-dark);
+  border-radius: 999px;
+  padding: .3rem .65rem;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
 .carte-calque{ margin-top: 1.2rem; }
-.carte-calque h3{ margin-bottom: .5rem; }
+.carte-calque h3{ margin-bottom: .5rem; display: flex; align-items: center; gap: .4rem; }
 .carte-liste-points{ list-style: none; margin: 0; padding: 0; }
 .carte-liste-points li{
   display: grid;

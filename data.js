@@ -33,7 +33,8 @@ window.SITE_DATA = {
       points: [
         { nom: "Andon (départ)", lat: 43.7740, lon: 6.7850, type: "depart" },
         { nom: "Carajuan (camping)", lat: 43.7953, lon: 6.4375, type: "camping" },
-        { nom: "Pont de Tusset", lat: 43.7940, lon: 6.4150, type: "baignade" }
+        { nom: "Pont de Tusset", lat: 43.7940, lon: 6.4150, type: "rando" },
+        { nom: "Plage de Carajuan", lat: 43.7953, lon: 6.4380, type: "baignade" }
       ],
       zones: ["gorges_04"],
       items: [
@@ -55,8 +56,10 @@ window.SITE_DATA = {
       statut: "a-reserver",
       points: [
         { nom: "Carajuan (départ)", lat: 43.7953, lon: 6.4375, type: "depart" },
-        { nom: "Couloir Samson", lat: 43.7935, lon: 6.3981, type: "activite" },
-        { nom: "Cascades de Saint-Maurin", lat: 43.7995, lon: 6.2905, type: "activite" },
+        { nom: "Couloir Samson", lat: 43.7935, lon: 6.3981, type: "rando" },
+        { nom: "Route des Crêtes", lat: 43.7750, lon: 6.3600, type: "panorama" },
+        { nom: "Cascades de Saint-Maurin", lat: 43.7995, lon: 6.2905, type: "rando" },
+        { nom: "Plage du Galetas", lat: 43.8017, lon: 6.2495, type: "baignade" },
         { nom: "Aiguines (camping)", lat: 43.7772, lon: 6.2440, type: "camping" }
       ],
       zones: ["gorges_04", "lac"],
@@ -79,8 +82,8 @@ window.SITE_DATA = {
       statut: "a-reserver",
       points: [
         { nom: "Aiguines (départ)", lat: 43.7772, lon: 6.2440, type: "depart" },
-        { nom: "Pont du Galetas", lat: 43.8017, lon: 6.2495, type: "baignade" },
-        { nom: "Moustiers-Sainte-Marie", lat: 43.8457, lon: 6.2215, type: "activite" },
+        { nom: "Kayak au pont du Galetas", lat: 43.8017, lon: 6.2495, type: "baignade" },
+        { nom: "Moustiers-Sainte-Marie", lat: 43.8457, lon: 6.2215, type: "panorama" },
         { nom: "Plage de Bauduen", lat: 43.7316, lon: 6.1772, type: "baignade" },
         { nom: "Les Salles (camping)", lat: 43.7740, lon: 6.2101, type: "camping" }
       ],
@@ -103,8 +106,9 @@ window.SITE_DATA = {
       statut: "a-reserver",
       points: [
         { nom: "Les Salles (départ)", lat: 43.7740, lon: 6.2101, type: "depart" },
-        { nom: "Garde-canal (Quinson)", lat: 43.6947, lon: 6.0397, type: "activite" },
-        { nom: "Calanques d'Esparron", lat: 43.7263, lon: 5.9632, type: "baignade" }
+        { nom: "Garde-canal (Quinson)", lat: 43.6947, lon: 6.0397, type: "rando" },
+        { nom: "Calanques d'Esparron", lat: 43.7263, lon: 5.9632, type: "baignade" },
+        { nom: "Esparron (camping si 5 jours)", lat: 43.7270, lon: 5.9640, type: "camping" }
       ],
       zones: ["basses_gorges_04"],
       items: [
@@ -126,8 +130,9 @@ window.SITE_DATA = {
       statut: "a-reserver",
       points: [
         { nom: "Esparron (départ)", lat: 43.7263, lon: 5.9632, type: "depart" },
-        { nom: "Canyon de Baudinard", lat: 43.6880, lon: 6.0530, type: "activite" },
-        { nom: "Balcons de la Mescla", lat: 43.7414, lon: 6.3818, type: "activite" },
+        { nom: "Canyon de Baudinard", lat: 43.6880, lon: 6.0530, type: "rando" },
+        { nom: "Lac de Montpezat", lat: 43.7050, lon: 6.0700, type: "baignade" },
+        { nom: "Balcons de la Mescla", lat: 43.7414, lon: 6.3818, type: "panorama" },
         { nom: "Andon (arrivée)", lat: 43.7740, lon: 6.7850, type: "arrivee" }
       ],
       zones: ["baudinard_var", "retour"],
@@ -159,7 +164,7 @@ window.SITE_DATA = {
     ],
     calques: [
       {
-        emoji: "🔵", nom: "Baignade",
+        emoji: "🔵", nom: "Baignade", couleur: "#0284c7",
         points: [
           { nom: "Calanques d'Esparron", description: "Criques turquoise, 10 min à pied. LE spot. Masque/tuba.", lat: 43.7263, lon: 5.9632 },
           { nom: "Plage de Carajuan", description: "Rivière au camping. Lâchers EDF à vérifier !", lat: 43.7953, lon: 6.4375 },
@@ -172,7 +177,7 @@ window.SITE_DATA = {
         ]
       },
       {
-        emoji: "🟢", nom: "Randos",
+        emoji: "🟤", nom: "Randos", couleur: "#92400e",
         points: [
           { nom: "Couloir Samson (départ Point Sublime)", description: "2h AR facile. LAMPE pour les tunnels.", lat: 43.7935, lon: 6.3981 },
           { nom: "Cascades de Saint-Maurin", description: "1h30. Cascades de tuf + grottes. Baignade interdite.", lat: 43.7995, lon: 6.2905 },
@@ -183,7 +188,7 @@ window.SITE_DATA = {
         ]
       },
       {
-        emoji: "🟡", nom: "Campings",
+        emoji: "🟡", nom: "Campings", couleur: "#ca8a04",
         points: [
           { nom: "Verdon Carajuan (nuit 1)", description: "Municipal bord de rivière. 04 86 62 00 26", lat: 43.7953, lon: 6.4375 },
           { nom: "De l'Aigle, Aiguines (nuit 2)", description: "Terrasses vue lac. Municipal Galetas FERMÉ.", lat: 43.7772, lon: 6.2440 },
@@ -195,7 +200,7 @@ window.SITE_DATA = {
         ]
       },
       {
-        emoji: "🟣", nom: "Points de vue",
+        emoji: "🟢", nom: "Panoramas / villages", couleur: "#16a34a",
         points: [
           { nom: "Point Sublime", description: "Belvédère mythique, entrée du canyon.", lat: 43.7935, lon: 6.3981 },
           { nom: "Route des Crêtes (1er belvédère)", description: "Boucle sens unique, vautours.", lat: 43.7750, lon: 6.3600 },
@@ -205,7 +210,7 @@ window.SITE_DATA = {
         ]
       },
       {
-        emoji: "⚪", nom: "Bonus / plans B",
+        emoji: "⚪", nom: "Bonus / plans B", couleur: "#6b7280",
         points: [
           { nom: "Sillans-la-Cascade", description: "Chute 42 m. BAIGNADE INTERDITE. Détour retour J4.", lat: 43.5650, lon: 6.1858 },
           { nom: "Kayak Montmeyan-plage", description: "Kayak/bateau élec ~25 €/2h. 04 92 74 40 76", lat: 43.6880, lon: 6.0530 },

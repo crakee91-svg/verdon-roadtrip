@@ -41,12 +41,15 @@
   }
 
   // ---------- Carte réelle (OpenStreetMap embed, gratuit, sans clé) + légende + distances ----------
+  // Code couleur unique du trip : bleu baignade · marron rando · vert panorama · jaune camping.
   const POINT_TYPES = {
-    depart: { icon: "🚗", label: "Départ / arrivée", color: "var(--ink-soft)" },
-    arrivee: { icon: "🚗", label: "Départ / arrivée", color: "var(--ink-soft)" },
-    camping: { icon: "⛺", label: "Camping (nuit)", color: "var(--turquoise)" },
-    activite: { icon: "🥾", label: "Rando / activité", color: "var(--emerald)" },
-    baignade: { icon: "🏊", label: "Baignade", color: "#38bdf8" }
+    depart: { icon: "🚗", label: "Départ / arrivée", color: "#374151" },
+    arrivee: { icon: "🚗", label: "Départ / arrivée", color: "#374151" },
+    camping: { icon: "⛺", label: "Camping (nuit)", color: "#ca8a04" },
+    rando: { icon: "🥾", label: "Rando", color: "#92400e" },
+    activite: { icon: "🥾", label: "Rando", color: "#92400e" },
+    panorama: { icon: "🌄", label: "Panorama / village", color: "#16a34a" },
+    baignade: { icon: "🏊", label: "Baignade", color: "#0284c7" }
   };
 
   // Distance à vol d'oiseau (Haversine) — pas la distance routière (voir "Andon → Rougon 1h15" etc.
@@ -243,24 +246,26 @@
         </div>
         <a class="btn-gps" href="${escapeHTML(openUrl)}" target="_blank" rel="noopener">🗺️ Ouvrir dans Google Maps</a>`;
     } else {
+      // Pas encore de My Maps configuré : grande carte OSM couvrant tous les points du trip.
+      const tousPoints = [];
+      carte.calques.forEach((c) => c.points.forEach((p) => tousPoints.push(p)));
       embedEl.innerHTML = `
-        <div class="carte-placeholder">
-          🗺️ Carte en préparation — <a href="https://mymaps.google.com" target="_blank" rel="noopener">créer/consulter sur mymaps.google.com</a>
-        </div>`;
+        ${osmEmbedHTML(tousPoints, { height: 400, pad: 0.12 })}
+        <p class="carte-embed-note">💡 Version Google My Maps colorée : importer <strong>kml/verdon-roadtrip-complet.kml</strong> sur <a href="https://mymaps.google.com" target="_blank" rel="noopener">mymaps.google.com</a> (2 min, couleurs automatiques — voir MAPS-IMPORT.md), puis coller l'URL d'intégration dans data.js → carte.embedUrl.</p>`;
     }
 
     const legendeEl = document.getElementById("carte-legende");
     legendeEl.innerHTML = carte.calques.map((c) =>
-      `<span class="carte-legende-item">${c.emoji} ${escapeHTML(c.nom)}</span>`
+      `<span class="carte-legende-item"><span class="point-dot" style="background:${escapeHTML(c.couleur || "#0d9488")}"></span>${c.emoji} ${escapeHTML(c.nom)}</span>`
     ).join("");
 
     const pointsEl = document.getElementById("carte-points");
     pointsEl.innerHTML = carte.calques.map((c) => `
       <div class="carte-calque">
-        <h3>${c.emoji} ${escapeHTML(c.nom)}</h3>
+        <h3><span class="point-dot" style="background:${escapeHTML(c.couleur || "#0d9488")}"></span> ${c.emoji} ${escapeHTML(c.nom)}</h3>
         <ul class="carte-liste-points">
           ${c.points.map((p) => `
-            <li>
+            <li style="border-left: 4px solid ${escapeHTML(c.couleur || "#0d9488")}">
               <span class="carte-point-nom">${escapeHTML(p.nom)}</span>
               <span class="carte-point-desc">${escapeHTML(p.description)}</span>
               <a class="carte-point-lien" href="https://www.google.com/maps?q=${Number(p.lat)},${Number(p.lon)}" target="_blank" rel="noopener">📍 Ouvrir</a>
@@ -269,6 +274,31 @@
         </ul>
       </div>
     `).join("");
+  }
+
+  // ---------- Récap des étapes (jour par jour, points colorés + distances) ----------
+  function renderEtapesRecap(jours) {
+    const el = document.getElementById("etapes-recap");
+    if (!el) return;
+    el.innerHTML = jours.map((j) => {
+      const pts = j.points || [];
+      let totalKm = 0;
+      for (let i = 1; i < pts.length; i++) totalKm += distanceKm(pts[i - 1], pts[i]);
+      const chips = pts.map((p) => {
+        const meta = POINT_TYPES[p.type] || POINT_TYPES.rando;
+        return `<a class="etape-chip" style="border-color:${meta.color}" href="https://www.google.com/maps?q=${Number(p.lat)},${Number(p.lon)}" target="_blank" rel="noopener">
+          <span class="point-dot" style="background:${meta.color}"></span>${meta.icon} ${escapeHTML(p.nom)}
+        </a>`;
+      }).join("");
+      return `
+        <div class="etape-jour">
+          <div class="etape-jour-head">
+            <a href="#${escapeHTML(j.id)}"><strong>${escapeHTML(j.titre)}</strong></a>
+            <span class="etape-jour-km">≈ ${Math.round(totalKm)} km à vol d'oiseau</span>
+          </div>
+          <div class="etape-chips">${chips}</div>
+        </div>`;
+    }).join("");
   }
 
   // ---------- Baignade ----------
@@ -458,6 +488,7 @@
     rerenderFireDependent();
     renderHero(data.meta, data.carte && data.carte.apercuGlobal);
     renderCarte(data.carte);
+    renderEtapesRecap(data.jours);
     renderBaignade(data.baignade);
     renderRandos(data.randos, data.randosLiensGeneraux);
     renderCampings(data.campings);
