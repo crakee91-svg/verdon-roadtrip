@@ -40,64 +40,73 @@
     }).join("")}</div>`;
   }
 
-  // ---------- Mini-cartes SVG (aucune dépendance externe, pas de réseau) ----------
-  // Projection très simplifiée (équirectangulaire, corrigée du cos(latitude)) : suffisant
-  // pour un schéma de trajet à cette échelle, pas pour une carte topographique précise.
-  const POINT_COLORS = {
-    depart: "var(--ink-soft)",
-    arrivee: "var(--ink-soft)",
-    camping: "var(--turquoise)",
-    activite: "var(--emerald)",
-    baignade: "#38bdf8"
+  // ---------- Carte réelle (OpenStreetMap embed, gratuit, sans clé) + légende + distances ----------
+  const POINT_TYPES = {
+    depart: { icon: "🚗", label: "Départ / arrivée", color: "var(--ink-soft)" },
+    arrivee: { icon: "🚗", label: "Départ / arrivée", color: "var(--ink-soft)" },
+    camping: { icon: "⛺", label: "Camping (nuit)", color: "var(--turquoise)" },
+    activite: { icon: "🥾", label: "Rando / activité", color: "var(--emerald)" },
+    baignade: { icon: "🏊", label: "Baignade", color: "#38bdf8" }
   };
 
-  function svgCarteHTML(points, opts) {
-    if (!points || points.length < 2) return "";
-    const width = (opts && opts.width) || 320;
-    const height = (opts && opts.height) || 190;
-
-    const lats = points.map((p) => p.lat);
-    const lons = points.map((p) => p.lon);
-    const latMin = Math.min.apply(null, lats), latMax = Math.max.apply(null, lats);
-    const lonMin = Math.min.apply(null, lons), lonMax = Math.max.apply(null, lons);
-    const midLat = (latMin + latMax) / 2;
-    const midLon = (lonMin + lonMax) / 2;
-    const cos = Math.cos(midLat * Math.PI / 180) || 1;
-
-    const spanLon = Math.max((lonMax - lonMin) * cos, 0.004);
-    const spanLat = Math.max(latMax - latMin, 0.004);
-
-    const pad = 24;
-    const scale = Math.min((width - pad * 2) / spanLon, (height - pad * 2) / spanLat);
-
-    const coords = points.map((p) => [
-      width / 2 + (p.lon - midLon) * cos * scale,
-      height / 2 - (p.lat - midLat) * scale
-    ]);
-
-    const pathD = coords.map((c, i) => (i === 0 ? "M" : "L") + c[0].toFixed(1) + "," + c[1].toFixed(1)).join(" ");
-
-    const dots = points.map((p, i) => {
-      const [x, y] = coords[i];
-      const r = (i === 0 || i === points.length - 1) ? 7 : 5.5;
-      const color = POINT_COLORS[p.type] || "var(--turquoise)";
-      return `
-        <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${color}" stroke="var(--offwhite)" stroke-width="2"/>
-        <text x="${x.toFixed(1)}" y="${(y - r - 5).toFixed(1)}" text-anchor="middle" class="mini-carte-num">${i + 1}</text>
-      `;
-    }).join("");
-
-    return `
-      <svg viewBox="0 0 ${width} ${height}" class="mini-carte" role="img" aria-label="Carte schématique du trajet du jour">
-        <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="16" fill="url(#carteGrad)"/>
-        <path d="${pathD}" fill="none" stroke="var(--offwhite)" stroke-width="2.5" stroke-dasharray="5,4" opacity="0.85"/>
-        ${dots}
-      </svg>`;
+  // Distance à vol d'oiseau (Haversine) — pas la distance routière (voir "Andon → Rougon 1h15" etc.
+  // dans les chiffres clés pour la vraie distance conduite).
+  function distanceKm(a, b) {
+    const R = 6371;
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLon = (b.lon - a.lon) * Math.PI / 180;
+    const lat1 = a.lat * Math.PI / 180, lat2 = b.lat * Math.PI / 180;
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(Math.min(1, h)));
   }
 
-  // Utilisée uniquement via .textContent (jamais innerHTML) : pas d'échappement HTML nécessaire.
-  function carteLegendeTexte(points) {
-    return points.map((p, i) => `${i + 1}. ${p.nom}`).join(" → ");
+  function bboxFor(points, padFrac) {
+    const lats = points.map((p) => p.lat), lons = points.map((p) => p.lon);
+    const latMin = Math.min.apply(null, lats), latMax = Math.max.apply(null, lats);
+    const lonMin = Math.min.apply(null, lons), lonMax = Math.max.apply(null, lons);
+    const latPad = Math.max((latMax - latMin) * padFrac, 0.015);
+    const lonPad = Math.max((lonMax - lonMin) * padFrac, 0.015);
+    return [lonMin - lonPad, latMin - latPad, lonMax + lonPad, latMax + latPad];
+  }
+
+  function osmEmbedHTML(points, opts) {
+    if (!points || points.length < 1) return "";
+    const height = (opts && opts.height) || 200;
+    const [w, s, e, n] = bboxFor(points, (opts && opts.pad) || 0.25);
+    const marker = points.find((p) => p.type === "camping") || points[0];
+    const src = `https://www.openstreetmap.org/export/embed.html?bbox=${w.toFixed(4)}%2C${s.toFixed(4)}%2C${e.toFixed(4)}%2C${n.toFixed(4)}&layer=mapnik&marker=${marker.lat}%2C${marker.lon}`;
+    return `
+      <div class="carte-embed-mini" style="height:${height}px">
+        <iframe src="${src}" loading="lazy" title="Carte OpenStreetMap du trajet"></iframe>
+      </div>
+      <p class="carte-embed-note">🗺️ Carte interactive (nécessite du réseau) — détail toujours lisible ci-dessous hors-ligne.</p>`;
+  }
+
+  function pointsLegendeHTML(points) {
+    const typesPresents = points.map((p) => p.type).filter((t, i, arr) => arr.indexOf(t) === i);
+    const legende = typesPresents.map((t) => {
+      const meta = POINT_TYPES[t] || POINT_TYPES.activite;
+      return `<span class="point-legende-item"><span class="point-dot" style="background:${meta.color}"></span>${meta.icon} ${escapeHTML(meta.label)}</span>`;
+    }).join("");
+
+    const items = [];
+    points.forEach((p, i) => {
+      if (i > 0) {
+        const d = distanceKm(points[i - 1], p);
+        items.push(`<li class="point-connector">↓ ${d < 1 ? "< 1" : Math.round(d)} km à vol d'oiseau</li>`);
+      }
+      const meta = POINT_TYPES[p.type] || POINT_TYPES.activite;
+      items.push(`
+        <li class="point-stop">
+          <span class="point-dot" style="background:${meta.color}"></span>
+          <span class="point-icon">${meta.icon}</span>
+          <span class="point-nom">${escapeHTML(p.nom)}</span>
+        </li>`);
+    });
+
+    return `
+      <div class="point-legende">${legende}</div>
+      <ul class="point-liste">${items.join("")}</ul>`;
   }
 
   // ---------- Fire banner ----------
@@ -171,8 +180,8 @@
       meta.chiffresCles.map((c) => `<li>${escapeHTML(c)}</li>`).join("");
 
     if (apercuGlobal && apercuGlobal.length) {
-      document.getElementById("hero-carte").innerHTML = svgCarteHTML(apercuGlobal, { width: 340, height: 220 });
-      document.getElementById("hero-carte-caption").textContent = carteLegendeTexte(apercuGlobal);
+      document.getElementById("hero-carte").innerHTML = osmEmbedHTML(apercuGlobal, { height: 240, pad: 0.15 });
+      document.getElementById("hero-carte-caption").innerHTML = pointsLegendeHTML(apercuGlobal);
     }
   }
 
@@ -184,8 +193,8 @@
       const statutLabel = STATUT_LABELS[statutClass] || statutClass;
       const carteJourHTML = (j.points && j.points.length) ? `
         <div class="jour-carte-carte">
-          ${svgCarteHTML(j.points, { width: 320, height: 170 })}
-          <p class="carte-caption">${escapeHTML(carteLegendeTexte(j.points))}</p>
+          ${osmEmbedHTML(j.points, { height: 190 })}
+          <div class="carte-caption">${pointsLegendeHTML(j.points)}</div>
         </div>` : "";
       const itemsHTML = (j.items || []).map((it) => `
         <li><span class="heure">${escapeHTML(it.heure)}</span><span class="texte">${escapeHTML(it.texte)}</span></li>

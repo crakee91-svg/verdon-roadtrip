@@ -292,22 +292,73 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
   padding: .15rem .55rem;
 }
 
-/* ============ Mini-cartes SVG (hero + jours) ============ */
-.mini-carte{
+/* ============ Cartes réelles (OpenStreetMap embed, hero + jours) ============ */
+.carte-embed-mini{
   width: 100%;
-  height: auto;
-  display: block;
   border-radius: 16px;
+  overflow: hidden;
   box-shadow: var(--shadow);
+  background: var(--sable);
 }
-.mini-carte-num{ fill: #fff; font-size: 11px; font-weight: 800; }
-.carte-caption{
-  margin: .5rem 0 0;
-  font-size: .78rem;
+.carte-embed-mini iframe{ width: 100%; height: 100%; border: 0; display: block; }
+.carte-embed-note{
+  margin: .4rem 0 0;
+  font-size: .72rem;
   color: var(--ink-soft);
-  line-height: 1.4;
+  font-style: italic;
 }
+
+.carte-caption{ margin-top: .7rem; }
 .carte-caption-hero{ padding: 0 .2rem; }
+
+.point-legende{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .6rem;
+}
+.point-legende-item{
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  background: var(--white);
+  border: 1px solid var(--sable-dark);
+  border-radius: 999px;
+  padding: .2rem .6rem;
+  font-size: .74rem;
+  font-weight: 700;
+}
+.point-dot{
+  width: .6rem;
+  height: .6rem;
+  border-radius: 50%;
+  flex: none;
+  display: inline-block;
+}
+
+.point-liste{ list-style: none; margin: 0; padding: 0; }
+.point-stop{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--white);
+  border: 1px solid var(--sable);
+  border-radius: 10px;
+  padding: .5rem .7rem;
+  margin-bottom: .3rem;
+  font-size: .88rem;
+  font-weight: 600;
+}
+.point-stop .point-dot{ width: .8rem; height: .8rem; }
+.point-icon{ font-size: 1rem; }
+.point-connector{
+  text-align: center;
+  font-size: .74rem;
+  color: var(--ink-soft);
+  padding: .15rem 0;
+  margin-bottom: .3rem;
+  font-weight: 600;
+}
 
 /* ============ Section Carte ============ */
 .carte-embed-wrap{
