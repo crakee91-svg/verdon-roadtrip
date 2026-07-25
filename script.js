@@ -282,7 +282,16 @@
   async function init() {
     const data = window.SITE_DATA;
     if (!data) {
-      document.body.innerHTML = "<p style='padding:2rem'>Erreur : data.js n'a pas pu être chargé.</p>";
+      document.body.innerHTML = `
+        <div style="padding:2rem;font-family:sans-serif;max-width:480px;margin:0 auto">
+          <h1 style="font-size:1.3rem">📡 Chargement impossible</h1>
+          <p>data.js n'a pas pu être chargé — le plus souvent par manque de réseau au
+          premier chargement de cette page sur cet appareil.</p>
+          <p><strong>Recharge la page dès que tu as du réseau</strong> (wifi ou 4G) :
+          une fois chargée avec succès une première fois, la page reste ensuite
+          disponible hors-ligne sur cet appareil.</p>
+          <p><button onclick="location.reload()" style="font-size:1rem;padding:.6rem 1rem">🔄 Réessayer maintenant</button></p>
+        </div>`;
       return;
     }
 

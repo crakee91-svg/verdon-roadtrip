@@ -115,5 +115,14 @@
 
 <script src="data.js"></script>
 <script src="script.js"></script>
+<script>
+  // Active le mode hors-ligne (voir sw.js) : sans effet en ouverture directe du
+  // fichier (file://) ou si le navigateur ne supporte pas les service workers.
+  if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>
