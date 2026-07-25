@@ -1,10 +1,15 @@
 /*
   Service worker minimal : rend le site utilisable hors-ligne après une première
-  visite réussie. Stratégie "stale-while-revalidate" : sert le cache immédiatement
-  (rapide, marche sans réseau), et va chercher une version fraîche en arrière-plan
-  pour la prochaine visite. Aucune dépendance externe.
+  visite réussie. Stratégie "réseau d'abord" : avec du réseau, va toujours chercher
+  la version la plus fraîche (et la met en cache au passage) ; hors-ligne (fetch en
+  échec), sert la dernière version connue en cache. Aucune dépendance externe.
+
+  Historique : la première version utilisait "stale-while-revalidate" (cache servi
+  en premier), ce qui masquait les mises à jour du site pendant un rechargement ou
+  deux après chaque déploiement — piégeant pour un site édité en continu. Réseau
+  d'abord règle ça : en ligne, on voit toujours la dernière version publiée.
 */
-const CACHE_NAME = "verdon-roadtrip-v1";
+const CACHE_NAME = "verdon-roadtrip-v2";
 const CORE_ASSETS = ["./", "./index.html", "./style.css", "./script.js", "./data.js"];
 
 self.addEventListener("install", (event) => {
@@ -32,17 +37,17 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
-      const cached = await cache.match(event.request);
-      const network = fetch(event.request)
-        .then((response) => {
-          if (response && response.ok) cache.put(event.request, response.clone());
-          return response;
-        })
-        .catch(() => null);
-      return cached || (await network) || new Response(
-        "Hors-ligne et cette page n'a jamais été chargée avec du réseau.",
-        { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } }
-      );
+      try {
+        const response = await fetch(event.request);
+        if (response && response.ok) cache.put(event.request, response.clone());
+        return response;
+      } catch (e) {
+        const cached = await cache.match(event.request);
+        return cached || new Response(
+          "Hors-ligne et cette page n'a jamais été chargée avec du réseau.",
+          { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } }
+        );
+      }
     })
   );
 });
