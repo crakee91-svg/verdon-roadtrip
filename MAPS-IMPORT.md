@@ -8,7 +8,7 @@ besoin de colorier quoi que ce soit à la main.
 
 1. Va sur **[mymaps.google.com](https://mymaps.google.com)** → **Créer une carte** → nomme-la
    "Road trip Verdon août 2026".
-2. **Importer** → sélectionne `kml/verdon-roadtrip-complet.kml`. C'est tout : les 29
+2. **Importer** → sélectionne `kml/verdon-roadtrip-complet.kml`. C'est tout : les 39
    points arrivent groupés par catégorie, chacun avec sa couleur.
 3. **Partager** → "Toute personne disposant du lien" → copie ce lien pour le groupe.
 4. Menu **⋮** de la carte → **"Intégrer à mon site"** → copie l'URL de l'iframe (elle
@@ -33,13 +33,18 @@ Utile si tu veux pouvoir masquer/afficher chaque catégorie indépendamment dans
 importe chaque fichier dans un calque distinct ("Ajouter un calque" entre chaque), puis
 applique la couleur à la main (icône pinceau → Style uniforme) :
 
-| Couleur | Calque | Contenu |
+| Couleur | Catégorie | Contenu |
 |---|---|---|
-| 🔵 Bleu | `baignade.kml` | Spots de baignade |
-| 🟤 Marron | `randos.kml` | Départs de randonnées |
-| 🟡 Jaune | `campings.kml` | Campings du trip |
-| 🟢 Vert | `points_de_vue.kml` | Panoramas et villages |
-| ⚪ Gris | `bonus_planb.kml` | Bonus et plans B |
+| 🔵 Bleu | Baignade | Spots de baignade |
+| 🟤 Marron | Randos | Départs de randonnées |
+| 🟡 Jaune | Campings | Campings du trip |
+| 🟢 Vert | Panoramas | Belvédères et points de vue |
+| 🟣 Violet | Villages mignons | Villages à visiter sur la route ou aux alentours |
+| ⚪ Gris | Bonus / plans B | Spots de repli |
+
+> Les fichiers séparés `kml/baignade.kml`, `randos.kml`, etc. restent disponibles pour un
+> import calque par calque, mais le fichier `verdon-roadtrip-complet.kml` ci-dessus est la
+> référence à jour (il contient les villages et les descriptions détaillées).
 
 ## Rappel
 

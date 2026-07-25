@@ -9,8 +9,11 @@
   deux après chaque déploiement — piégeant pour un site édité en continu. Réseau
   d'abord règle ça : en ligne, on voit toujours la dernière version publiée.
 */
-const CACHE_NAME = "verdon-roadtrip-v2";
-const CORE_ASSETS = ["./", "./index.html", "./style.css", "./script.js", "./data.js"];
+const CACHE_NAME = "verdon-roadtrip-v3";
+const CORE_ASSETS = [
+  "./", "./index.html", "./style.css", "./script.js", "./data.js",
+  "./vendor/leaflet/leaflet.js", "./vendor/leaflet/leaflet.css"
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

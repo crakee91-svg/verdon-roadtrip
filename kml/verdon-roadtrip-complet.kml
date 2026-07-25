@@ -2,72 +2,83 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
 <name>Road trip Verdon août 2026</name>
-<description>Tous les points du trip, pré-coloriés : bleu baignade · marron rando · jaune camping · vert panorama · gris bonus/plan B. Importer ce seul fichier dans Google My Maps suffit, les couleurs suivent.</description>
+<description>Tous les points du trip, pré-coloriés : bleu baignade · marron rando · jaune camping · vert panorama · violet village · gris bonus/plan B. Importer ce seul fichier dans Google My Maps suffit, les couleurs suivent.</description>
 
 <Style id="baignade">
   <IconStyle><color>ffc78402</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
 </Style>
-<Style id="rando">
+<Style id="randos">
   <IconStyle><color>ff0e4092</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
 </Style>
-<Style id="camping">
+<Style id="campings">
   <IconStyle><color>ff048aca</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
 </Style>
-<Style id="panorama">
+<Style id="panoramas">
   <IconStyle><color>ff4aa316</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
 </Style>
-<Style id="bonus">
+<Style id="villages_mignons">
+  <IconStyle><color>ffea3393</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
+</Style>
+<Style id="bonus_plans_b">
   <IconStyle><color>ff80726b</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
 </Style>
 
 <Folder>
 <name>🔵 Baignade</name>
-<Placemark><name>Calanques d'Esparron</name><styleUrl>#baignade</styleUrl><description>Criques turquoise, 10 min à pied. LE spot. Masque/tuba.</description><Point><coordinates>5.9632,43.7263</coordinates></Point></Placemark>
-<Placemark><name>Plage de Carajuan</name><styleUrl>#baignade</styleUrl><description>Rivière au camping. Lâchers EDF à vérifier !</description><Point><coordinates>6.4375,43.7953</coordinates></Point></Placemark>
-<Placemark><name>Vasques du pont de Tusset</name><styleUrl>#baignade</styleUrl><description>Pont XVIIe + vasques. 15 min du parking Samson.</description><Point><coordinates>6.4150,43.7940</coordinates></Point></Placemark>
-<Placemark><name>Criques de Sainte-Croix-du-Verdon</name><styleUrl>#baignade</styleUrl><description>Sous le village, méconnues.</description><Point><coordinates>6.1509,43.7657</coordinates></Point></Placemark>
-<Placemark><name>Plage de Bauduen</name><styleUrl>#baignade</styleUrl><description>Galets blancs, sauts de rochers. Viser 15h+.</description><Point><coordinates>6.1772,43.7316</coordinates></Point></Placemark>
-<Placemark><name>Plage du Galetas</name><styleUrl>#baignade</styleUrl><description>Carte postale. Avant 9h30 ou après 17h30 SEULEMENT.</description><Point><coordinates>6.2495,43.8017</coordinates></Point></Placemark>
-<Placemark><name>Lac de Montpezat</name><styleUrl>#baignade</styleUrl><description>Récompense de la rando Baudinard.</description><Point><coordinates>6.0700,43.7050</coordinates></Point></Placemark>
-<Placemark><name>Lac d'Artignosc</name><styleUrl>#baignade</styleUrl><description>Plan B calme, base nautique.</description><Point><coordinates>6.0855,43.7030</coordinates></Point></Placemark>
+<Placemark><name>Calanques d'Esparron</name><styleUrl>#baignade</styleUrl><description>LE spot du séjour. Criques de graviers blancs entre falaises calcaires, eau turquoise 23-25 °C, snorkeling (masque/tuba). Accès : sentier de rive facile depuis le parking du village, 10 min. Plus on marche, plus c'est désert.</description><Point><coordinates>5.9632,43.7263</coordinates></Point></Placemark>
+<Placemark><name>Plage de Carajuan</name><styleUrl>#baignade</styleUrl><description>Plage de galets sur le Verdon rivière, eau vive 15-18 °C (ça pique, ça réveille). À 5 min à pied du camping. IMPÉRATIF : vérifier les horaires de lâchers EDF à l'accueil — le niveau peut monter d'un coup.</description><Point><coordinates>6.4375,43.7953</coordinates></Point></Placemark>
+<Placemark><name>Vasques du pont de Tusset</name><styleUrl>#baignade</styleUrl><description>Vasques émeraude sous un pont du XVIIe, rochers plats pour poser les serviettes, quasi personne. 15 min de marche depuis le parking. Même consigne EDF que Carajuan.</description><Point><coordinates>6.415,43.794</coordinates></Point></Placemark>
+<Placemark><name>Criques de Sainte-Croix-du-Verdon</name><styleUrl>#baignade</styleUrl><description>Criques de galets sous le village, pente douce, méconnues des touristes qui s'entassent au Galetas. Accès par le sentier qui descend du village.</description><Point><coordinates>6.1509,43.7657</coordinates></Point></Placemark>
+<Placemark><name>Plage de Bauduen</name><styleUrl>#baignade</styleUrl><description>Galets blancs, eau limpide, sauts de rochers côté falaise pour les motivés. Plage surveillée en été. Prisée : viser après 15h, ou le village se vide à l'apéro.</description><Point><coordinates>6.1772,43.7316</coordinates></Point></Placemark>
+<Placemark><name>Plage du Galetas</name><styleUrl>#baignade</styleUrl><description>LA carte postale du Verdon : sable + galets face à l'entrée des gorges, eau 22-25 °C. Bondée 10h-17h en août — n'y aller qu'avant 9h30 ou après 17h30, lumière superbe en prime.</description><Point><coordinates>6.2495,43.8017</coordinates></Point></Placemark>
+<Placemark><name>Lac de Montpezat</name><styleUrl>#baignade</styleUrl><description>Petit lac-retenue calme (22-24 °C), plage d'herbe, se mérite : c'est la récompense au retour de la rando Baudinard. Peu de monde même en août.</description><Point><coordinates>6.07,43.705</coordinates></Point></Placemark>
+<Placemark><name>Lac d'Artignosc</name><styleUrl>#baignade</styleUrl><description>Petit lac tranquille avec base nautique (canoës à louer), plage herbe + galets, ambiance familiale. Le plan B parfait quand Sainte-Croix déborde. Côté Var → vérifier la carte massifs.</description><Point><coordinates>6.0855,43.703</coordinates></Point></Placemark>
 </Folder>
-
 <Folder>
 <name>🟤 Randos</name>
-<Placemark><name>Couloir Samson (départ Point Sublime)</name><styleUrl>#rando</styleUrl><description>2h AR facile. LAMPE pour les tunnels.</description><Point><coordinates>6.3981,43.7935</coordinates></Point></Placemark>
-<Placemark><name>Cascades de Saint-Maurin</name><styleUrl>#rando</styleUrl><description>1h30. Cascades de tuf + grottes. Baignade interdite.</description><Point><coordinates>6.2905,43.7995</coordinates></Point></Placemark>
-<Placemark><name>Garde-canal (départ Musée Quinson)</name><styleUrl>#rando</styleUrl><description>10 km, 3h. N°1 AllTrails du parc. Lampe.</description><Point><coordinates>6.0397,43.6947</coordinates></Point></Placemark>
-<Placemark><name>Canyon de Baudinard (départ Montmeyan-plage)</name><styleUrl>#rando</styleUrl><description>2h30-3h. Massif Var : GO/NO-GO le matin.</description><Point><coordinates>6.0530,43.6880</coordinates></Point></Placemark>
-<Placemark><name>Tour du village de Moustiers</name><styleUrl>#rando</styleUrl><description>1h. Chapelle + vue lac.</description><Point><coordinates>6.2215,43.8457</coordinates></Point></Placemark>
-<Placemark><name>Gorges de Trévans (bonus)</name><styleUrl>#rando</styleUrl><description>Plan anti-feu/anti-foule, 40 min au nord.</description><Point><coordinates>6.1900,44.0000</coordinates></Point></Placemark>
+<Placemark><name>Couloir Samson (départ Point Sublime)</name><styleUrl>#randos</styleUrl><description>2h AR facile. LAMPE pour les tunnels.</description><Point><coordinates>6.3981,43.7935</coordinates></Point></Placemark>
+<Placemark><name>Cascades de Saint-Maurin</name><styleUrl>#randos</styleUrl><description>1h30. Cascades de tuf + grottes. Baignade interdite.</description><Point><coordinates>6.2905,43.7995</coordinates></Point></Placemark>
+<Placemark><name>Garde-canal (départ Musée Quinson)</name><styleUrl>#randos</styleUrl><description>10 km, 3h. N°1 AllTrails du parc. Lampe.</description><Point><coordinates>6.0397,43.6947</coordinates></Point></Placemark>
+<Placemark><name>Canyon de Baudinard (départ Montmeyan-plage)</name><styleUrl>#randos</styleUrl><description>2h30-3h. Massif Var : GO/NO-GO le matin.</description><Point><coordinates>6.053,43.688</coordinates></Point></Placemark>
+<Placemark><name>Tour du village de Moustiers</name><styleUrl>#randos</styleUrl><description>1h. Chapelle + vue lac.</description><Point><coordinates>6.2215,43.8457</coordinates></Point></Placemark>
+<Placemark><name>Gorges de Trévans (bonus)</name><styleUrl>#randos</styleUrl><description>Plan anti-feu/anti-foule, 40 min au nord.</description><Point><coordinates>6.19,44</coordinates></Point></Placemark>
 </Folder>
-
 <Folder>
 <name>🟡 Campings</name>
-<Placemark><name>Verdon Carajuan (nuit 1)</name><styleUrl>#camping</styleUrl><description>Municipal bord de rivière. 04 86 62 00 26</description><Point><coordinates>6.4375,43.7953</coordinates></Point></Placemark>
-<Placemark><name>De l'Aigle, Aiguines (nuit 2)</name><styleUrl>#camping</styleUrl><description>Terrasses vue lac. Municipal Galetas FERMÉ.</description><Point><coordinates>6.2440,43.7772</coordinates></Point></Placemark>
-<Placemark><name>Chanteraine, Aiguines (nuit 2 alt.)</name><styleUrl>#camping</styleUrl><description>Tentes à 500 m du lac.</description><Point><coordinates>6.2440,43.7790</coordinates></Point></Placemark>
-<Placemark><name>La Source, Les Salles (nuit 3)</name><styleUrl>#camping</styleUrl><description>Bord du lac. 04 94 70 20 40</description><Point><coordinates>6.2101,43.7740</coordinates></Point></Placemark>
-<Placemark><name>Les Roches, Ste-Croix (nuit 3 alt.)</name><styleUrl>#camping</styleUrl><description>Municipal vue lac. 04 92 77 78 99</description><Point><coordinates>6.1509,43.7670</coordinates></Point></Placemark>
-<Placemark><name>Le Grand Canyon, La Palud (secours)</name><styleUrl>#camping</styleUrl><description>04 92 77 38 13</description><Point><coordinates>6.3488,43.7804</coordinates></Point></Placemark>
-<Placemark><name>Campings Esparron/Quinson (nuit 4 opt.)</name><styleUrl>#camping</styleUrl><description>Appeler 2-3 j avant.</description><Point><coordinates>5.9632,43.7270</coordinates></Point></Placemark>
+<Placemark><name>Verdon Carajuan (nuit 1)</name><styleUrl>#campings</styleUrl><description>Municipal bord de rivière. 04 86 62 00 26</description><Point><coordinates>6.4375,43.7953</coordinates></Point></Placemark>
+<Placemark><name>De l'Aigle, Aiguines (nuit 2)</name><styleUrl>#campings</styleUrl><description>Terrasses vue lac. Municipal Galetas FERMÉ.</description><Point><coordinates>6.244,43.7772</coordinates></Point></Placemark>
+<Placemark><name>Chanteraine, Aiguines (nuit 2 alt.)</name><styleUrl>#campings</styleUrl><description>Tentes à 500 m du lac.</description><Point><coordinates>6.244,43.779</coordinates></Point></Placemark>
+<Placemark><name>La Source, Les Salles (nuit 3)</name><styleUrl>#campings</styleUrl><description>Bord du lac. 04 94 70 20 40</description><Point><coordinates>6.2101,43.774</coordinates></Point></Placemark>
+<Placemark><name>Les Roches, Ste-Croix (nuit 3 alt.)</name><styleUrl>#campings</styleUrl><description>Municipal vue lac. 04 92 77 78 99</description><Point><coordinates>6.1509,43.767</coordinates></Point></Placemark>
+<Placemark><name>Le Grand Canyon, La Palud (secours)</name><styleUrl>#campings</styleUrl><description>04 92 77 38 13</description><Point><coordinates>6.3488,43.7804</coordinates></Point></Placemark>
+<Placemark><name>Campings Esparron/Quinson (nuit 4 opt.)</name><styleUrl>#campings</styleUrl><description>Appeler 2-3 j avant.</description><Point><coordinates>5.9632,43.727</coordinates></Point></Placemark>
 </Folder>
-
 <Folder>
-<name>🟢 Panoramas / villages</name>
-<Placemark><name>Point Sublime</name><styleUrl>#panorama</styleUrl><description>Belvédère mythique, entrée du canyon.</description><Point><coordinates>6.3981,43.7935</coordinates></Point></Placemark>
-<Placemark><name>Route des Crêtes (1er belvédère)</name><styleUrl>#panorama</styleUrl><description>Boucle sens unique, vautours.</description><Point><coordinates>6.3600,43.7750</coordinates></Point></Placemark>
-<Placemark><name>Balcons de la Mescla</name><styleUrl>#panorama</styleUrl><description>Plus belle vue des gorges. Arrêt retour J5.</description><Point><coordinates>6.3818,43.7414</coordinates></Point></Placemark>
-<Placemark><name>Moustiers-Sainte-Marie</name><styleUrl>#panorama</styleUrl><description>Village + étoile suspendue.</description><Point><coordinates>6.2215,43.8457</coordinates></Point></Placemark>
-<Placemark><name>Aiguines village</name><styleUrl>#panorama</styleUrl><description>Vue plongeante lac, soirée J2.</description><Point><coordinates>6.2440,43.7772</coordinates></Point></Placemark>
+<name>🟢 Panoramas</name>
+<Placemark><name>Point Sublime</name><styleUrl>#panoramas</styleUrl><description>Belvédère mythique, entrée du canyon. Vue plongeante sur le couloir Samson.</description><Point><coordinates>6.3981,43.7935</coordinates></Point></Placemark>
+<Placemark><name>Route des Crêtes (1er belvédère)</name><styleUrl>#panoramas</styleUrl><description>Boucle sens unique depuis La Palud, falaises de 400 m, vautours fauves au-dessus de la tête.</description><Point><coordinates>6.36,43.775</coordinates></Point></Placemark>
+<Placemark><name>Balcons de la Mescla</name><styleUrl>#panoramas</styleUrl><description>Confluent Verdon/Artuby vu de 250 m. La plus belle vue des gorges. Arrêt retour J5.</description><Point><coordinates>6.3818,43.7414</coordinates></Point></Placemark>
+<Placemark><name>Pont du Galetas (belvédère)</name><styleUrl>#panoramas</styleUrl><description>L'entrée des gorges vue de la route, eau turquoise + kayaks. Photo carte postale.</description><Point><coordinates>6.25,43.8025</coordinates></Point></Placemark>
 </Folder>
-
+<Folder>
+<name>🟣 Villages mignons</name>
+<Placemark><name>Moustiers-Sainte-Marie</name><styleUrl>#villages_mignons</styleUrl><description>Plus Beau Village de France. Faïence, étoile suspendue entre deux falaises, chapelle N-D de Beauvoir. Déjeuner J3.</description><Point><coordinates>6.2215,43.8457</coordinates></Point></Placemark>
+<Placemark><name>Aiguines</name><styleUrl>#villages_mignons</styleUrl><description>Village perché au-dessus du lac, château aux tuiles vernissées, ruelles calmes le soir. Soirée J2 (on y dort).</description><Point><coordinates>6.244,43.7772</coordinates></Point></Placemark>
+<Placemark><name>Castellane</name><styleUrl>#villages_mignons</styleUrl><description>Porte du Verdon, sous le Roc et sa chapelle perchée à 184 m. Pause café sur la route J1.</description><Point><coordinates>6.5128,43.8478</coordinates></Point></Placemark>
+<Placemark><name>Rougon</name><styleUrl>#villages_mignons</styleUrl><description>Village-balcon à 960 m au-dessus du canyon, colonie de vautours. À 5 min du camping J1.</description><Point><coordinates>6.4009,43.7936</coordinates></Point></Placemark>
+<Placemark><name>La Palud-sur-Verdon</name><styleUrl>#villages_mignons</styleUrl><description>QG des grimpeurs et randonneurs du grand canyon. Ravitaillement, ambiance montagne. Sur la route J2.</description><Point><coordinates>6.3419,43.7804</coordinates></Point></Placemark>
+<Placemark><name>Sainte-Croix-du-Verdon</name><styleUrl>#villages_mignons</styleUrl><description>Balcon sur le lac, criques méconnues en contrebas. Étape J3 soir (camping Les Roches).</description><Point><coordinates>6.1509,43.7657</coordinates></Point></Placemark>
+<Placemark><name>Bauduen</name><styleUrl>#villages_mignons</styleUrl><description>Village-port accroché à la falaise, les pieds dans le lac. Plage + ruelles J3 aprem.</description><Point><coordinates>6.178,43.732</coordinates></Point></Placemark>
+<Placemark><name>Quinson</name><styleUrl>#villages_mignons</styleUrl><description>Village des basses gorges, Musée de Préhistoire (le plus grand d'Europe sur le sujet). Départ rando J4.</description><Point><coordinates>6.038,43.696</coordinates></Point></Placemark>
+<Placemark><name>Esparron-de-Verdon</name><styleUrl>#villages_mignons</styleUrl><description>Petit port au bord du lac, château des Castellane habité. Fin d'étape J4.</description><Point><coordinates>5.9727,43.738</coordinates></Point></Placemark>
+<Placemark><name>Aups</name><styleUrl>#villages_mignons</styleUrl><description>Vraie place provençale (platanes, fontaines), capitale de la truffe du Var. Ravitaillement retour J4/J5.</description><Point><coordinates>6.2243,43.628</coordinates></Point></Placemark>
+<Placemark><name>Riez</name><styleUrl>#villages_mignons</styleUrl><description>Colonnes romaines en plein champ, cité de caractère entre Moustiers et Quinson. Détour possible J3→J4 (via D952).</description><Point><coordinates>6.092,43.818</coordinates></Point></Placemark>
+</Folder>
 <Folder>
 <name>⚪ Bonus / plans B</name>
-<Placemark><name>Sillans-la-Cascade</name><styleUrl>#bonus</styleUrl><description>Chute 42 m. BAIGNADE INTERDITE. Détour retour J4.</description><Point><coordinates>6.1858,43.5650</coordinates></Point></Placemark>
-<Placemark><name>Kayak Montmeyan-plage</name><styleUrl>#bonus</styleUrl><description>Kayak/bateau élec ~25 €/2h. 04 92 74 40 76</description><Point><coordinates>6.0530,43.6880</coordinates></Point></Placemark>
-<Placemark><name>Aups (essence + ravitaillement)</name><styleUrl>#bonus</styleUrl><description>Étape retour.</description><Point><coordinates>6.2243,43.6280</coordinates></Point></Placemark>
+<Placemark><name>Sillans-la-Cascade</name><styleUrl>#bonus_plans_b</styleUrl><description>Chute 42 m. BAIGNADE INTERDITE. Détour retour J4.</description><Point><coordinates>6.1858,43.565</coordinates></Point></Placemark>
+<Placemark><name>Kayak Montmeyan-plage</name><styleUrl>#bonus_plans_b</styleUrl><description>Kayak/bateau élec ~25 €/2h. 04 92 74 40 76</description><Point><coordinates>6.053,43.688</coordinates></Point></Placemark>
+<Placemark><name>Aups (essence + ravitaillement)</name><styleUrl>#bonus_plans_b</styleUrl><description>Étape retour.</description><Point><coordinates>6.2243,43.628</coordinates></Point></Placemark>
 </Folder>
-
 </Document>
 </kml>

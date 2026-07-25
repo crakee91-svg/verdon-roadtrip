@@ -40,17 +40,99 @@
     }).join("")}</div>`;
   }
 
-  // ---------- Carte réelle (OpenStreetMap embed, gratuit, sans clé) + légende + distances ----------
-  // Code couleur unique du trip : bleu baignade · marron rando · vert panorama · jaune camping.
+  // ---------- Cartes interactives (Leaflet vendorisé + tuiles OpenStreetMap, sans clé API) ----------
+  // Code couleur unique du trip : bleu baignade · marron rando · vert panorama · violet village · jaune camping.
   const POINT_TYPES = {
     depart: { icon: "🚗", label: "Départ / arrivée", color: "#374151" },
     arrivee: { icon: "🚗", label: "Départ / arrivée", color: "#374151" },
     camping: { icon: "⛺", label: "Camping (nuit)", color: "#ca8a04" },
     rando: { icon: "🥾", label: "Rando", color: "#92400e" },
     activite: { icon: "🥾", label: "Rando", color: "#92400e" },
-    panorama: { icon: "🌄", label: "Panorama / village", color: "#16a34a" },
+    panorama: { icon: "🌄", label: "Panorama", color: "#16a34a" },
+    village: { icon: "🏘️", label: "Village mignon", color: "#9333ea" },
     baignade: { icon: "🏊", label: "Baignade", color: "#0284c7" }
   };
+
+  // File d'attente des cartes à initialiser : le HTML est injecté d'abord (innerHTML),
+  // puis Leaflet est instancié sur chaque conteneur une fois qu'il est dans le DOM.
+  const PENDING_MAPS = [];
+  const LIVE_MAPS = [];   // instances Leaflet vivantes, pour les détruire avant un re-rendu
+  let mapSeq = 0;
+
+  function leafletMapHTML(points, opts) {
+    if (!points || !points.length) return "";
+    opts = opts || {};
+    const id = "lmap-" + (++mapSeq);
+    PENDING_MAPS.push({ id, points, opts, group: opts.group || "permanent" });
+    return `<div class="leaflet-map" id="${id}" style="height:${opts.height || 210}px"></div>`;
+  }
+
+  function pointMeta(p) {
+    if (p.type && POINT_TYPES[p.type]) return POINT_TYPES[p.type];
+    return { icon: "📍", label: p.categorie || "", color: p.couleur || "#0d9488" };
+  }
+
+  // Détruit les cartes Leaflet vivantes d'un groupe donné (avant un re-rendu qui
+  // remplace leurs conteneurs). Sans argument : toutes.
+  function destroyLiveMaps(group) {
+    for (let i = LIVE_MAPS.length - 1; i >= 0; i--) {
+      if (group && LIVE_MAPS[i].group !== group) continue;
+      try { LIVE_MAPS[i].map.remove(); } catch (e) { /* déjà retirée */ }
+      LIVE_MAPS.splice(i, 1);
+    }
+  }
+
+  function initPendingMaps() {
+    if (typeof L === "undefined") {
+      // Leaflet pas chargé (première visite hors-ligne) : on remplace par une note,
+      // les listes de points sous chaque carte restent la source d'info.
+      PENDING_MAPS.forEach((m) => {
+        const el = document.getElementById(m.id);
+        if (el) el.outerHTML = '<div class="carte-offline-note">🗺️ Carte interactive indisponible pour l\'instant (pas de réseau) — le détail des étapes reste lisible ci-dessous.</div>';
+      });
+      PENDING_MAPS.length = 0;
+      return;
+    }
+    PENDING_MAPS.forEach((entry) => {
+      const el = document.getElementById(entry.id);
+      if (!el) return;
+      try {
+        const map = L.map(entry.id, { scrollWheelZoom: false });
+        LIVE_MAPS.push({ map, group: entry.group });
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 17,
+          attribution: "&copy; OpenStreetMap"
+        }).addTo(map);
+
+        if (entry.opts.ligne) {
+          L.polyline(entry.points.map((p) => [p.lat, p.lon]), {
+            color: "#0f766e", weight: 3, dashArray: "6 6", opacity: 0.8
+          }).addTo(map);
+        }
+
+        entry.points.forEach((p, i) => {
+          const meta = pointMeta(p);
+          const marker = L.circleMarker([p.lat, p.lon], {
+            radius: 9, color: "#ffffff", weight: 2.5, fillColor: meta.color, fillOpacity: 1
+          }).addTo(map);
+          const desc = p.info || p.description || "";
+          const ordre = entry.opts.ligne ? `<span class="lmap-ordre">Étape ${i + 1}</span> ` : "";
+          marker.bindPopup(
+            `<div class="lmap-popup">${ordre}<strong>${escapeHTML(p.nom)}</strong>` +
+            (meta.label ? `<div class="lmap-type" style="color:${meta.color}">${meta.icon} ${escapeHTML(meta.label)}</div>` : "") +
+            (desc ? `<p>${escapeHTML(desc)}</p>` : "") +
+            `<a href="https://www.google.com/maps?q=${Number(p.lat)},${Number(p.lon)}" target="_blank" rel="noopener">📍 Ouvrir dans Google Maps</a></div>`
+          );
+        });
+
+        map.fitBounds(L.latLngBounds(entry.points.map((p) => [p.lat, p.lon])), { padding: [28, 28] });
+      } catch (e) {
+        // Rendu de carte impossible (ex. conteneur sans dimensions) : on n'interrompt pas la page.
+        if (el.parentNode) el.outerHTML = '<div class="carte-offline-note">🗺️ Carte momentanément indisponible — le détail des étapes reste lisible ci-dessous.</div>';
+      }
+    });
+    PENDING_MAPS.length = 0;
+  }
 
   // Distance à vol d'oiseau (Haversine) — pas la distance routière (voir "Andon → Rougon 1h15" etc.
   // dans les chiffres clés pour la vraie distance conduite).
@@ -63,34 +145,13 @@
     return 2 * R * Math.asin(Math.sqrt(Math.min(1, h)));
   }
 
-  function bboxFor(points, padFrac) {
-    const lats = points.map((p) => p.lat), lons = points.map((p) => p.lon);
-    const latMin = Math.min.apply(null, lats), latMax = Math.max.apply(null, lats);
-    const lonMin = Math.min.apply(null, lons), lonMax = Math.max.apply(null, lons);
-    const latPad = Math.max((latMax - latMin) * padFrac, 0.015);
-    const lonPad = Math.max((lonMax - lonMin) * padFrac, 0.015);
-    return [lonMin - lonPad, latMin - latPad, lonMax + lonPad, latMax + latPad];
-  }
-
-  function osmEmbedHTML(points, opts) {
-    if (!points || points.length < 1) return "";
-    const height = (opts && opts.height) || 200;
-    const [w, s, e, n] = bboxFor(points, (opts && opts.pad) || 0.25);
-    const marker = points.find((p) => p.type === "camping") || points[0];
-    const src = `https://www.openstreetmap.org/export/embed.html?bbox=${w.toFixed(4)}%2C${s.toFixed(4)}%2C${e.toFixed(4)}%2C${n.toFixed(4)}&layer=mapnik&marker=${marker.lat}%2C${marker.lon}`;
-    return `
-      <div class="carte-embed-mini" style="height:${height}px">
-        <iframe src="${src}" loading="lazy" title="Carte OpenStreetMap du trajet"></iframe>
-      </div>
-      <p class="carte-embed-note">🗺️ Carte interactive (nécessite du réseau) — détail toujours lisible ci-dessous hors-ligne.</p>`;
-  }
-
   function pointsLegendeHTML(points) {
-    const typesPresents = points.map((p) => p.type).filter((t, i, arr) => arr.indexOf(t) === i);
-    const legende = typesPresents.map((t) => {
-      const meta = POINT_TYPES[t] || POINT_TYPES.activite;
-      return `<span class="point-legende-item"><span class="point-dot" style="background:${meta.color}"></span>${meta.icon} ${escapeHTML(meta.label)}</span>`;
-    }).join("");
+    // Dédoublonnage par LIBELLÉ (depart/arrivee partagent "Départ / arrivée" → une seule entrée).
+    const seen = {};
+    const legende = points.map((p) => POINT_TYPES[p.type] || POINT_TYPES.activite)
+      .filter((meta) => { if (seen[meta.label]) return false; seen[meta.label] = true; return true; })
+      .map((meta) => `<span class="point-legende-item"><span class="point-dot" style="background:${meta.color}"></span>${meta.icon} ${escapeHTML(meta.label)}</span>`)
+      .join("");
 
     const items = [];
     points.forEach((p, i) => {
@@ -183,7 +244,7 @@
       meta.chiffresCles.map((c) => `<li>${escapeHTML(c)}</li>`).join("");
 
     if (apercuGlobal && apercuGlobal.length) {
-      document.getElementById("hero-carte").innerHTML = osmEmbedHTML(apercuGlobal, { height: 240, pad: 0.15 });
+      document.getElementById("hero-carte").innerHTML = leafletMapHTML(apercuGlobal, { height: 260, ligne: true });
       document.getElementById("hero-carte-caption").innerHTML = pointsLegendeHTML(apercuGlobal);
     }
   }
@@ -196,7 +257,7 @@
       const statutLabel = STATUT_LABELS[statutClass] || statutClass;
       const carteJourHTML = (j.points && j.points.length) ? `
         <div class="jour-carte-carte">
-          ${osmEmbedHTML(j.points, { height: 190 })}
+          ${leafletMapHTML(j.points, { height: 210, ligne: true, group: "jours" })}
           <div class="carte-caption">${pointsLegendeHTML(j.points)}</div>
         </div>` : "";
       const itemsHTML = (j.items || []).map((it) => `
@@ -246,12 +307,15 @@
         </div>
         <a class="btn-gps" href="${escapeHTML(openUrl)}" target="_blank" rel="noopener">🗺️ Ouvrir dans Google Maps</a>`;
     } else {
-      // Pas encore de My Maps configuré : grande carte OSM couvrant tous les points du trip.
+      // Pas encore de My Maps configuré : grande carte Leaflet couvrant TOUS les points,
+      // chacun colorié selon sa catégorie (la couleur de son calque), popup au clic.
       const tousPoints = [];
-      carte.calques.forEach((c) => c.points.forEach((p) => tousPoints.push(p)));
+      carte.calques.forEach((c) => c.points.forEach((p) =>
+        tousPoints.push({ nom: p.nom, description: p.description, lat: p.lat, lon: p.lon, couleur: c.couleur, categorie: c.emoji + " " + c.nom })
+      ));
       embedEl.innerHTML = `
-        ${osmEmbedHTML(tousPoints, { height: 400, pad: 0.12 })}
-        <p class="carte-embed-note">💡 Version Google My Maps colorée : importer <strong>kml/verdon-roadtrip-complet.kml</strong> sur <a href="https://mymaps.google.com" target="_blank" rel="noopener">mymaps.google.com</a> (2 min, couleurs automatiques — voir MAPS-IMPORT.md), puis coller l'URL d'intégration dans data.js → carte.embedUrl.</p>`;
+        ${leafletMapHTML(tousPoints, { height: 420 })}
+        <p class="carte-embed-note">💡 Pour la version Google My Maps (épingles colorées natives) : importer <strong>kml/verdon-roadtrip-complet.kml</strong> sur <a href="https://mymaps.google.com" target="_blank" rel="noopener">mymaps.google.com</a> (2 min, couleurs automatiques — voir MAPS-IMPORT.md), puis coller l'URL d'intégration dans data.js → carte.embedUrl.</p>`;
     }
 
     const legendeEl = document.getElementById("carte-legende");
@@ -333,7 +397,9 @@
             <span class="rando-position">📍 ${escapeHTML(r.position)}</span>
             <span class="rando-duree">⏱️ ${escapeHTML(r.duree)}</span>
           </div>
+          ${r.allTrails ? `<div class="rando-alltrails">⭐ ${escapeHTML(r.allTrails)}</div>` : ""}
           <p>${escapeHTML(r.description)}</p>
+          ${r.materiel ? `<div class="rando-materiel">🎒 À emporter : ${escapeHTML(r.materiel)}</div>` : ""}
           ${baignadeIndicateurHTML(r.baignade)}
           <div class="liens-generaux">${(r.liens || []).map((l) =>
             `<a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">${escapeHTML(l.label)}</a>`
@@ -481,11 +547,13 @@
         rerenderFireDependent();
         return result;
       });
-      renderJours(data.jours, zonesById);
+      renderJours(data.jours, zonesById);   // (re)crée les conteneurs de cartes de jour
       renderFeuxSection(data.fireStatus, data.risqueFeuxSpots);
+      destroyLiveMaps("jours");             // retire les cartes de jour de l'ancien rendu
+      initPendingMaps();                    // instancie toutes les cartes en attente
     }
 
-    rerenderFireDependent();
+    // Cartes permanentes (hero + globale) : queue une seule fois.
     renderHero(data.meta, data.carte && data.carte.apercuGlobal);
     renderCarte(data.carte);
     renderEtapesRecap(data.jours);
@@ -495,6 +563,7 @@
     renderPlansB(data.planGeneraux, data.regles);
     renderChecklist("todo-avant", "verdon-todo-avant", data.todoAvant);
     renderChecklist("todo-matin", "verdon-todo-matin", data.todoMatin);
+    rerenderFireDependent();  // en dernier : injecte les jours + instancie hero/globale/jours d'un coup
   }
 
   if (document.readyState === "loading") {
