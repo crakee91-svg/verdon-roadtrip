@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Road Trip Verdon — Mission Baignade</title>
+<meta name="description" content="Carnet de route du Verdon : programme jour par jour, spots de baignade, randos, contacts et plans B.">
+<meta name="theme-color" content="#0d9488">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏞️</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="fire-banner" class="fire-banner" aria-live="polite"></div>
+
+<header class="hero" id="hero">
+  <div class="media hero-media" data-label="Gorges du Verdon">
+    <img src="images/hero.jpg" alt="Gorges du Verdon et lac de Sainte-Croix vus du ciel" onerror="this.closest('.media').classList.add('img-missing')">
+  </div>
+  <div class="hero-content">
+    <h1 id="site-titre">Road Trip Verdon</h1>
+    <p class="hero-sous-titre" id="site-sous-titre">Mission Baignade</p>
+    <p class="hero-intro" id="site-intro"></p>
+    <p class="hero-priorites" id="site-priorites"></p>
+    <ul class="chiffres-cles" id="chiffres-cles"></ul>
+  </div>
+</header>
+
+<nav class="nav-sticky" id="nav-sticky">
+  <a href="#programme">Programme</a>
+  <a href="#spots-bonus">Spots bonus</a>
+  <a href="#baignade">Baignade</a>
+  <a href="#randos">Randos</a>
+  <a href="#contacts">Contacts</a>
+  <a href="#plans-b">Plans B</a>
+</nav>
+
+<main>
+
+  <section id="programme" class="section">
+    <h2>Programme</h2>
+    <div class="jours-liste" id="jours-liste"></div>
+  </section>
+
+  <section id="spots-bonus" class="section">
+    <h2>Spots bonus aux alentours</h2>
+    <p class="section-note">Modules interchangeables : chacun indique où il se case dans le programme.</p>
+    <div class="cartes-grille" id="spots-bonus-liste"></div>
+  </section>
+
+  <section id="baignade" class="section">
+    <h2>Spots de baignade</h2>
+    <p class="section-note">Classés par tranquillité en août.</p>
+    <div class="table-wrap">
+      <table id="baignade-table">
+        <thead><tr><th>Spot</th><th>Foule</th><th>Notes</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="randos" class="section">
+    <h2>Randos — tracés et fiches</h2>
+    <div class="table-wrap">
+      <table id="randos-table">
+        <thead><tr><th>Rando</th><th>Durée / niveau</th><th>Liens</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div id="randos-liens-generaux" class="liens-generaux"></div>
+  </section>
+
+  <section id="contacts" class="section">
+    <h2>Contacts</h2>
+    <div class="table-wrap">
+      <table id="contacts-table">
+        <thead><tr><th>Qui</th><th>Quoi</th><th>Numéro</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="plans-b" class="section">
+    <h2>Plans B généraux</h2>
+    <ul class="liste-simple" id="plans-b-liste"></ul>
+
+    <h3>Règles du parc</h3>
+    <ul class="liste-simple" id="regles-liste"></ul>
+  </section>
+
+  <section id="pratique" class="section">
+    <h2>À faire</h2>
+
+    <h3>Avant le départ</h3>
+    <ul class="checklist" id="todo-avant"></ul>
+
+    <h3>Chaque matin sur place</h3>
+    <ul class="checklist" id="todo-matin"></ul>
+
+    <h3>Risque feux par spot</h3>
+    <div class="table-wrap">
+      <table id="risque-table">
+        <thead><tr><th>Spot</th><th>Dépt</th><th>Exposition</th><th>Situation</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>Fait pour être lu en plein soleil, en voyage, souvent hors connexion. Actualisable en éditant <code>data.js</code>.</p>
+  <p id="footer-liens-feux"></p>
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
