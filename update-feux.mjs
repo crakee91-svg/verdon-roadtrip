@@ -48,15 +48,15 @@ function extractFeuxEnCours(html) {
 }
 
 function loadExistingFireStatus() {
-  // Lit le FIRE_STATUS actuel depuis data.js pour garder les zones/libellés existants
-  // en fallback si le scraping ne trouve rien pour un département.
+  // Lit le FIRE_STATUS actuel depuis data.js (en évaluant tout le fichier) pour garder
+  // les zones/libellés existants en fallback si le scraping ne trouve rien pour un département.
+  // Robuste à la mise en forme du fichier (pas de dépendance à l'indentation).
   const dataJsPath = join(__dirname, "data.js");
-  const src = readFileSync(dataJsPath, "utf8");
-  const match = src.match(/fireStatus:\s*(\{[\s\S]*?\n {2}\}\})/);
-  if (!match) return null;
+  const src = readFileSync(dataJsPath, "utf8").replace(/^const SITE_DATA\s*=/m, "return");
   try {
     // eslint-disable-next-line no-new-func
-    return new Function(`return (${match[1].replace(/\}$/, "}")})`)();
+    const site = new Function(src)();
+    return site && site.fireStatus ? site.fireStatus : null;
   } catch {
     return null;
   }
