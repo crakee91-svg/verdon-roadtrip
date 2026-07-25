@@ -21,8 +21,7 @@ window.SITE_DATA = {
       "Andon → Rougon 1h15",
       "Esparron → Andon ~2h15",
       "Max ~1h de route/jour"
-    ],
-    heroImage: "images/hero.jpg"
+    ]
   },
 
   // Statuts possibles par jour : "confirme" | "a-reserver" | "plan-b-actif" | "annule"
@@ -31,7 +30,11 @@ window.SITE_DATA = {
       id: "j1",
       titre: "Jour 1 — Rivière sauvage (Rougon)",
       statut: "a-reserver",
-      images: ["images/carajuan.jpg"],
+      points: [
+        { nom: "Andon (départ)", lat: 43.7740, lon: 6.7850, type: "depart" },
+        { nom: "Carajuan (camping)", lat: 43.7953, lon: 6.4375, type: "camping" },
+        { nom: "Pont de Tusset", lat: 43.7940, lon: 6.4150, type: "baignade" }
+      ],
       zones: ["gorges_04"],
       items: [
         { heure: "10h00", texte: "Andon → Castellane → D952 → Carajuan (1h15)" },
@@ -50,7 +53,12 @@ window.SITE_DATA = {
       id: "j2",
       titre: "Jour 2 — Canyon le matin, lac le soir",
       statut: "a-reserver",
-      images: ["images/samson.jpg", "images/saint-maurin.jpg", "images/galetas.jpg"],
+      points: [
+        { nom: "Carajuan (départ)", lat: 43.7953, lon: 6.4375, type: "depart" },
+        { nom: "Couloir Samson", lat: 43.7935, lon: 6.3981, type: "activite" },
+        { nom: "Cascades de Saint-Maurin", lat: 43.7995, lon: 6.2905, type: "activite" },
+        { nom: "Aiguines (camping)", lat: 43.7772, lon: 6.2440, type: "camping" }
+      ],
       zones: ["gorges_04", "lac"],
       alerte: "Le camping municipal du Galetas est FERMÉ en 2026 (annonce mairie d'Aiguines : mise aux normes sécurité). La plage et le kayak du Galetas restent accessibles au public — seule la nuitée change, voir ci-dessous.",
       items: [
@@ -69,7 +77,13 @@ window.SITE_DATA = {
       id: "j3",
       titre: "Jour 3 — Kayak dans les gorges + criques",
       statut: "a-reserver",
-      images: ["images/galetas.jpg", "images/moustiers.jpg", "images/bauduen.jpg"],
+      points: [
+        { nom: "Aiguines (départ)", lat: 43.7772, lon: 6.2440, type: "depart" },
+        { nom: "Pont du Galetas", lat: 43.8017, lon: 6.2495, type: "baignade" },
+        { nom: "Moustiers-Sainte-Marie", lat: 43.8457, lon: 6.2215, type: "activite" },
+        { nom: "Plage de Bauduen", lat: 43.7316, lon: 6.1772, type: "baignade" },
+        { nom: "Les Salles (camping)", lat: 43.7740, lon: 6.2101, type: "camping" }
+      ],
       zones: ["lac"],
       items: [
         { heure: "09h00", texte: "Kayak au pont du Galetas (5 min du camping, 2h sur l'eau) — DÈS L'OUVERTURE" },
@@ -87,7 +101,11 @@ window.SITE_DATA = {
       id: "j4",
       titre: "Jour 4 — Basses gorges secrètes",
       statut: "a-reserver",
-      images: ["images/garde-canal.jpg", "images/esparron.jpg"],
+      points: [
+        { nom: "Les Salles (départ)", lat: 43.7740, lon: 6.2101, type: "depart" },
+        { nom: "Garde-canal (Quinson)", lat: 43.6947, lon: 6.0397, type: "activite" },
+        { nom: "Calanques d'Esparron", lat: 43.7263, lon: 5.9632, type: "baignade" }
+      ],
       zones: ["basses_gorges_04"],
       items: [
         { heure: "08h00", texte: "Lac → Quinson (35 min, sur l'itinéraire)" },
@@ -106,7 +124,12 @@ window.SITE_DATA = {
       id: "j5",
       titre: "Jour 5 (option) — Rando-baignade finale + retour panoramique",
       statut: "a-reserver",
-      images: ["images/baudinard.jpg", "images/mescla.jpg"],
+      points: [
+        { nom: "Esparron (départ)", lat: 43.7263, lon: 5.9632, type: "depart" },
+        { nom: "Canyon de Baudinard", lat: 43.6880, lon: 6.0530, type: "activite" },
+        { nom: "Balcons de la Mescla", lat: 43.7414, lon: 6.3818, type: "activite" },
+        { nom: "Andon (arrivée)", lat: 43.7740, lon: 6.7850, type: "arrivee" }
+      ],
       zones: ["baudinard_var", "retour"],
       items: [
         { heure: "08h30", texte: "Canyon de Baudinard depuis Montmeyan-plage (+10 min de route depuis Quinson, +2h30-3h, moyen — fiche dans Randos). GO/NO-GO selon carte massifs Var LE MATIN MÊME." },
@@ -125,6 +148,15 @@ window.SITE_DATA = {
   // Tant que embedUrl est vide, le site affiche un encart "Carte en préparation".
   carte: {
     embedUrl: "",
+    // Aperçu global affiché en haut du site (remplace l'image hero) : un point par étape.
+    apercuGlobal: [
+      { nom: "Andon (départ/arrivée)", lat: 43.7740, lon: 6.7850, type: "depart" },
+      { nom: "J1 · Carajuan", lat: 43.7953, lon: 6.4375, type: "camping" },
+      { nom: "J2 · Aiguines", lat: 43.7772, lon: 6.2440, type: "camping" },
+      { nom: "J3 · Les Salles", lat: 43.7740, lon: 6.2101, type: "camping" },
+      { nom: "J4 · Esparron", lat: 43.7263, lon: 5.9632, type: "camping" },
+      { nom: "Andon (retour)", lat: 43.7740, lon: 6.7850, type: "arrivee" }
+    ],
     calques: [
       {
         emoji: "🔵", nom: "Baignade",

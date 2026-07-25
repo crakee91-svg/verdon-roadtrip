@@ -40,6 +40,66 @@
     }).join("")}</div>`;
   }
 
+  // ---------- Mini-cartes SVG (aucune dépendance externe, pas de réseau) ----------
+  // Projection très simplifiée (équirectangulaire, corrigée du cos(latitude)) : suffisant
+  // pour un schéma de trajet à cette échelle, pas pour une carte topographique précise.
+  const POINT_COLORS = {
+    depart: "var(--ink-soft)",
+    arrivee: "var(--ink-soft)",
+    camping: "var(--turquoise)",
+    activite: "var(--emerald)",
+    baignade: "#38bdf8"
+  };
+
+  function svgCarteHTML(points, opts) {
+    if (!points || points.length < 2) return "";
+    const width = (opts && opts.width) || 320;
+    const height = (opts && opts.height) || 190;
+
+    const lats = points.map((p) => p.lat);
+    const lons = points.map((p) => p.lon);
+    const latMin = Math.min.apply(null, lats), latMax = Math.max.apply(null, lats);
+    const lonMin = Math.min.apply(null, lons), lonMax = Math.max.apply(null, lons);
+    const midLat = (latMin + latMax) / 2;
+    const midLon = (lonMin + lonMax) / 2;
+    const cos = Math.cos(midLat * Math.PI / 180) || 1;
+
+    const spanLon = Math.max((lonMax - lonMin) * cos, 0.004);
+    const spanLat = Math.max(latMax - latMin, 0.004);
+
+    const pad = 24;
+    const scale = Math.min((width - pad * 2) / spanLon, (height - pad * 2) / spanLat);
+
+    const coords = points.map((p) => [
+      width / 2 + (p.lon - midLon) * cos * scale,
+      height / 2 - (p.lat - midLat) * scale
+    ]);
+
+    const pathD = coords.map((c, i) => (i === 0 ? "M" : "L") + c[0].toFixed(1) + "," + c[1].toFixed(1)).join(" ");
+
+    const dots = points.map((p, i) => {
+      const [x, y] = coords[i];
+      const r = (i === 0 || i === points.length - 1) ? 7 : 5.5;
+      const color = POINT_COLORS[p.type] || "var(--turquoise)";
+      return `
+        <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${color}" stroke="var(--offwhite)" stroke-width="2"/>
+        <text x="${x.toFixed(1)}" y="${(y - r - 5).toFixed(1)}" text-anchor="middle" class="mini-carte-num">${i + 1}</text>
+      `;
+    }).join("");
+
+    return `
+      <svg viewBox="0 0 ${width} ${height}" class="mini-carte" role="img" aria-label="Carte schématique du trajet du jour">
+        <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="16" fill="url(#carteGrad)"/>
+        <path d="${pathD}" fill="none" stroke="var(--offwhite)" stroke-width="2.5" stroke-dasharray="5,4" opacity="0.85"/>
+        ${dots}
+      </svg>`;
+  }
+
+  // Utilisée uniquement via .textContent (jamais innerHTML) : pas d'échappement HTML nécessaire.
+  function carteLegendeTexte(points) {
+    return points.map((p, i) => `${i + 1}. ${p.nom}`).join(" → ");
+  }
+
   // ---------- Fire banner ----------
   // `onRefresh` re-fetches data/feux.json (published by update-feux.mjs / la GitHub Action).
   // Une vraie lecture live de feuxdeforet.fr depuis le navigateur est bloquée par leur
@@ -101,7 +161,7 @@
   }
 
   // ---------- Hero ----------
-  function renderHero(meta) {
+  function renderHero(meta, apercuGlobal) {
     document.title = `${meta.titre} — ${meta.sousTitre}`;
     document.getElementById("site-titre").textContent = meta.titre;
     document.getElementById("site-sous-titre").textContent = meta.sousTitre;
@@ -110,11 +170,9 @@
     document.getElementById("chiffres-cles").innerHTML =
       meta.chiffresCles.map((c) => `<li>${escapeHTML(c)}</li>`).join("");
 
-    const heroMedia = document.querySelector(".hero-media");
-    if (meta.heroImage) {
-      heroMedia.dataset.label = "Gorges du Verdon";
-      const img = heroMedia.querySelector("img");
-      img.src = meta.heroImage;
+    if (apercuGlobal && apercuGlobal.length) {
+      document.getElementById("hero-carte").innerHTML = svgCarteHTML(apercuGlobal, { width: 340, height: 220 });
+      document.getElementById("hero-carte-caption").textContent = carteLegendeTexte(apercuGlobal);
     }
   }
 
@@ -124,7 +182,11 @@
     wrap.innerHTML = jours.map((j) => {
       const statutClass = j.statut || "a-reserver";
       const statutLabel = STATUT_LABELS[statutClass] || statutClass;
-      const imagesHTML = (j.images || []).map((src) => mediaHTML(src, j.titre)).join("");
+      const carteJourHTML = (j.points && j.points.length) ? `
+        <div class="jour-carte-carte">
+          ${svgCarteHTML(j.points, { width: 320, height: 170 })}
+          <p class="carte-caption">${escapeHTML(carteLegendeTexte(j.points))}</p>
+        </div>` : "";
       const itemsHTML = (j.items || []).map((it) => `
         <li><span class="heure">${escapeHTML(it.heure)}</span><span class="texte">${escapeHTML(it.texte)}</span></li>
       `).join("");
@@ -142,7 +204,7 @@
 
       return `
         <article class="jour-carte statut-${statutClass}" id="${escapeHTML(j.id)}">
-          ${imagesHTML ? `<div class="jour-carte-images">${imagesHTML}</div>` : ""}
+          ${carteJourHTML}
           <div class="jour-carte-body">
             <div class="jour-carte-head">
               <h3>${escapeHTML(j.titre)}</h3>
@@ -385,7 +447,7 @@
     }
 
     rerenderFireDependent();
-    renderHero(data.meta);
+    renderHero(data.meta, data.carte && data.carte.apercuGlobal);
     renderCarte(data.carte);
     renderBaignade(data.baignade);
     renderRandos(data.randos, data.randosLiensGeneraux);
