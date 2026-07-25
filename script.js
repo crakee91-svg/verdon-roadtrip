@@ -154,44 +154,45 @@
     }).join("");
   }
 
-  // ---------- Spots bonus ----------
-  function renderSpotsBonus(list) {
-    const wrap = document.getElementById("spots-bonus-liste");
-    wrap.innerHTML = list.map((s) => `
-      <article class="carte-bonus">
-        ${mediaHTML(s.image, s.titre)}
-        <div class="carte-bonus-body">
-          <h3>${escapeHTML(s.titre)}</h3>
-          <p>${escapeHTML(s.texte)}</p>
-          <div class="se-case">${escapeHTML(s.seCase)}</div>
-        </div>
-      </article>
-    `).join("");
-  }
-
   // ---------- Baignade ----------
   function renderBaignade(list) {
     const tbody = document.querySelector("#baignade-table tbody");
     tbody.innerHTML = list.map((b) => `
       <tr>
         <td>${escapeHTML(b.spot)}</td>
-        <td><span class="foule ${escapeHTML(b.niveau)}">${escapeHTML(b.niveau)}</span></td>
-        <td>${escapeHTML(b.notes)}</td>
+        <td>${escapeHTML(b.jour)}</td>
+        <td>${escapeHTML(b.position)}</td>
+        <td>${escapeHTML(b.detour)}</td>
+        <td><span class="foule ${escapeHTML(b.niveau)}">${escapeHTML(b.niveau)}</span>${b.note ? ` — ${escapeHTML(b.note)}` : ""}</td>
       </tr>
     `).join("");
   }
 
-  // ---------- Randos ----------
+  // ---------- Randos (fiches) ----------
+  function baignadeIndicateurHTML(baignade) {
+    if (!baignade) return "";
+    const icone = baignade.ok === true ? "✅" : baignade.ok === false ? "🚫" : "❔";
+    return `<div class="rando-baignade">${icone} Baignade : ${escapeHTML(baignade.note)}</div>`;
+  }
+
   function renderRandos(list, liensGeneraux) {
-    const tbody = document.querySelector("#randos-table tbody");
-    tbody.innerHTML = list.map((r) => `
-      <tr>
-        <td>${escapeHTML(r.nom)}</td>
-        <td>${escapeHTML(r.duree)}</td>
-        <td class="liens-cell">${(r.liens || []).map((l) =>
-          `<a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">${escapeHTML(l.label)}</a>`
-        ).join("")}</td>
-      </tr>
+    const wrap = document.getElementById("randos-liste");
+    wrap.innerHTML = list.map((r) => `
+      <article class="rando-carte">
+        ${r.image ? mediaHTML(r.image, r.nom) : ""}
+        <div class="rando-carte-body">
+          <h3>${escapeHTML(r.nom)}</h3>
+          <div class="rando-meta">
+            <span class="rando-position">📍 ${escapeHTML(r.position)}</span>
+            <span class="rando-duree">⏱️ ${escapeHTML(r.duree)}</span>
+          </div>
+          <p>${escapeHTML(r.description)}</p>
+          ${baignadeIndicateurHTML(r.baignade)}
+          <div class="liens-generaux">${(r.liens || []).map((l) =>
+            `<a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">${escapeHTML(l.label)}</a>`
+          ).join("")}</div>
+        </div>
+      </article>
     `).join("");
 
     const gen = document.getElementById("randos-liens-generaux");
@@ -202,16 +203,27 @@
     }
   }
 
-  // ---------- Contacts ----------
-  function renderContacts(list) {
-    const tbody = document.querySelector("#contacts-table tbody");
+  // ---------- Campings ----------
+  function contactHTML(contact) {
+    if (!contact) return "";
+    if (/^[\d\s]+$/.test(contact)) {
+      return `<a href="tel:${contact.replace(/\s/g, "")}">${escapeHTML(contact)}</a>`;
+    }
+    if (/^[a-z0-9.-]+\.[a-z]{2,}(\/\S*)?$/i.test(contact)) {
+      return `<a href="https://${contact}" target="_blank" rel="noopener">${escapeHTML(contact)}</a>`;
+    }
+    return escapeHTML(contact);
+  }
+
+  function renderCampings(list) {
+    const tbody = document.querySelector("#campings-table tbody");
     tbody.innerHTML = list.map((c) => `
       <tr>
-        <td>${escapeHTML(c.qui)}</td>
-        <td>${escapeHTML(c.quoi)}</td>
-        <td>${c.numero && c.numero.match(/^[\d\s]+$/) ?
-          `<a href="tel:${c.numero.replace(/\s/g, "")}">${escapeHTML(c.numero)}</a>` :
-          escapeHTML(c.numero)}</td>
+        <td>${escapeHTML(c.nom)}</td>
+        <td>${escapeHTML(c.nuit)}</td>
+        <td>${escapeHTML(c.lieu)}</td>
+        <td>${contactHTML(c.contact)}</td>
+        <td>${escapeHTML(c.notes)}</td>
       </tr>
     `).join("");
   }
@@ -248,10 +260,20 @@
     });
   }
 
-  // ---------- Risque feux détaillé ----------
-  function renderRisqueFeux(list) {
+  // ---------- Section Feux (zones + exposition par spot) ----------
+  function renderFeuxSection(fireStatus, risqueFeuxSpots) {
+    const zonesEl = document.getElementById("feux-zones");
+    if (fireStatus) {
+      zonesEl.innerHTML = fireStatus.zones.map((z) => `
+        <div class="zone-detail zone-detail-${z.statut}">
+          <div class="zone-detail-head">${ZONE_DOT[z.statut] || "⚪"} <strong>${escapeHTML(z.nom)}</strong> <span>(${escapeHTML(z.dept)})</span></div>
+          <p>${escapeHTML(z.detail)}</p>
+        </div>
+      `).join("");
+    }
+
     const tbody = document.querySelector("#risque-table tbody");
-    tbody.innerHTML = list.map((r) => `
+    tbody.innerHTML = risqueFeuxSpots.map((r) => `
       <tr>
         <td>${escapeHTML(r.spot)}</td>
         <td>${escapeHTML(r.dept)}</td>
@@ -259,6 +281,13 @@
         <td>${escapeHTML(r.situation)}</td>
       </tr>
     `).join("");
+
+    const gen = document.getElementById("feux-liens-generaux");
+    if (fireStatus && gen) {
+      gen.innerHTML = "<strong>Liens live :</strong>" + fireStatus.liensLive.map((l) =>
+        `<a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">${escapeHTML(l.label)}</a>`
+      ).join("");
+    }
   }
 
   // Essaie de lire data/feux.json (publié par update-feux.mjs, à la main ou via la
@@ -306,18 +335,17 @@
         return result;
       });
       renderJours(data.jours, zonesById);
+      renderFeuxSection(data.fireStatus, data.risqueFeuxSpots);
     }
 
     rerenderFireDependent();
     renderHero(data.meta);
-    renderSpotsBonus(data.spotsBonus);
     renderBaignade(data.baignade);
     renderRandos(data.randos, data.randosLiensGeneraux);
-    renderContacts(data.contacts);
+    renderCampings(data.campings);
     renderPlansB(data.planGeneraux, data.regles);
     renderChecklist("todo-avant", "verdon-todo-avant", data.todoAvant);
     renderChecklist("todo-matin", "verdon-todo-matin", data.todoMatin);
-    renderRisqueFeux(data.risqueFeuxSpots);
   }
 
   if (document.readyState === "loading") {

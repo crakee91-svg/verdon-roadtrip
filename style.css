@@ -308,6 +308,22 @@ main{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
   padding: .15rem .55rem;
 }
 
+/* ============ Section Feux ============ */
+.zone-detail-liste{ display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.2rem; }
+.zone-detail{
+  background: var(--white);
+  border-left: 5px solid var(--sable-dark);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: .7rem .9rem;
+}
+.zone-detail-ok{ border-left-color: var(--ok); }
+.zone-detail-vigilance{ border-left-color: var(--vigilance); }
+.zone-detail-alerte{ border-left-color: var(--alerte); }
+.zone-detail-head{ font-size: .95rem; margin-bottom: .25rem; }
+.zone-detail-head span{ color: var(--ink-soft); font-weight: 400; }
+.zone-detail p{ margin: 0; font-size: .88rem; color: var(--ink-soft); }
+
 .timeline{ list-style: none; margin: 0; padding: 0; }
 .timeline li{
   display: grid;
@@ -356,27 +372,35 @@ details.planb p{ margin: 0 0 .7rem; font-size: .92rem; }
 
 /* ============ Cards grid (spots bonus) ============ */
 .cartes-grille{ display: flex; flex-direction: column; gap: 1rem; }
-.carte-bonus{
+
+/* ============ Randos (fiches) ============ */
+.rando-carte{
   background: var(--white);
   border: 1px solid var(--sable);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
-.carte-bonus .media{ border-radius: 0; aspect-ratio: 16/9; }
-.carte-bonus-body{ padding: .9rem 1rem 1.1rem; }
-.carte-bonus-body h3{ margin: 0 0 .4rem; font-size: 1.05rem; }
-.carte-bonus-body p{ margin: .3rem 0; font-size: .92rem; }
-.se-case{
+.rando-carte .media{ border-radius: 0; aspect-ratio: 16/9; }
+.rando-carte-body{ padding: .9rem 1rem 1.1rem; }
+.rando-carte-body h3{ margin: 0 0 .5rem; font-size: 1.05rem; }
+.rando-carte-body p{ margin: .5rem 0; font-size: .92rem; }
+.rando-meta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .8rem;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--turquoise-dark);
+}
+.rando-baignade{
   margin-top: .6rem;
   font-size: .85rem;
   font-weight: 700;
-  color: var(--emerald);
-  background: #ecfdf5;
+  background: var(--offwhite);
   border-radius: 8px;
   padding: .5rem .6rem;
 }
-.se-case::before{ content: "📍 Se case : "; }
 
 /* ============ Tables ============ */
 .table-wrap{ overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); }

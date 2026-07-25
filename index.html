@@ -28,10 +28,10 @@
 
 <nav class="nav-sticky" id="nav-sticky">
   <a href="#programme">Programme</a>
-  <a href="#spots-bonus">Spots bonus</a>
-  <a href="#baignade">Baignade</a>
   <a href="#randos">Randos</a>
-  <a href="#contacts">Contacts</a>
+  <a href="#baignade">Baignade</a>
+  <a href="#campings">Campings</a>
+  <a href="#feux">Feux</a>
   <a href="#plans-b">Plans B</a>
 </nav>
 
@@ -42,42 +42,46 @@
     <div class="jours-liste" id="jours-liste"></div>
   </section>
 
-  <section id="spots-bonus" class="section">
-    <h2>Spots bonus aux alentours</h2>
-    <p class="section-note">Modules interchangeables : chacun indique où il se case dans le programme.</p>
-    <div class="cartes-grille" id="spots-bonus-liste"></div>
+  <section id="randos" class="section">
+    <h2>Randos — fiches</h2>
+    <p class="section-note">Jour · position sur le trajet · temps ajouté par rapport à la route directe.</p>
+    <div class="cartes-grille" id="randos-liste"></div>
+    <div id="randos-liens-generaux" class="liens-generaux"></div>
   </section>
 
   <section id="baignade" class="section">
     <h2>Spots de baignade</h2>
-    <p class="section-note">Classés par tranquillité en août.</p>
+    <p class="section-note">Jour · position sur le trajet · détour · foule en août.</p>
     <div class="table-wrap">
       <table id="baignade-table">
-        <thead><tr><th>Spot</th><th>Foule</th><th>Notes</th></tr></thead>
+        <thead><tr><th>Spot</th><th>Jour</th><th>Position</th><th>Détour</th><th>Foule</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
   </section>
 
-  <section id="randos" class="section">
-    <h2>Randos — tracés et fiches</h2>
+  <section id="campings" class="section">
+    <h2>Campings (tous vérifiés)</h2>
     <div class="table-wrap">
-      <table id="randos-table">
-        <thead><tr><th>Rando</th><th>Durée / niveau</th><th>Liens</th></tr></thead>
+      <table id="campings-table">
+        <thead><tr><th>Camping</th><th>Nuit</th><th>Lieu</th><th>Contact</th><th>Notes</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
-    <div id="randos-liens-generaux" class="liens-generaux"></div>
   </section>
 
-  <section id="contacts" class="section">
-    <h2>Contacts</h2>
+  <section id="feux" class="section">
+    <h2>Risque feux</h2>
+    <p class="section-note">feuxdeforet.fr = feux EN COURS · risque-prevention-incendie.fr = massifs OUVERTS/FERMÉS du jour (c'est elle qui décide si on randonne).</p>
+    <div id="feux-zones" class="zone-detail-liste"></div>
+    <h3>Exposition par spot</h3>
     <div class="table-wrap">
-      <table id="contacts-table">
-        <thead><tr><th>Qui</th><th>Quoi</th><th>Numéro</th></tr></thead>
+      <table id="risque-table">
+        <thead><tr><th>Spot</th><th>Dépt</th><th>Exposition</th><th>Situation</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
+    <div id="feux-liens-generaux" class="liens-generaux"></div>
   </section>
 
   <section id="plans-b" class="section">
@@ -96,14 +100,6 @@
 
     <h3>Chaque matin sur place</h3>
     <ul class="checklist" id="todo-matin"></ul>
-
-    <h3>Risque feux par spot</h3>
-    <div class="table-wrap">
-      <table id="risque-table">
-        <thead><tr><th>Spot</th><th>Dépt</th><th>Exposition</th><th>Situation</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
   </section>
 
 </main>

@@ -15,8 +15,11 @@ baudinard.jpg     -> canyon baudinard lac montpezat
 mescla.jpg        -> balcons de la mescla verdon
 artignosc.jpg     -> lac artignosc verdon
 sillans.jpg       -> sillans la cascade var
-trevans.jpg       -> gorges de trevans estoublon
-valensole.jpg     -> plateau valensole lavande
+trevans.jpg       -> gorges de trevans estoublon (affichée sur la fiche rando Trévans)
+
+artignosc.jpg et sillans.jpg : plus de carte dédiée sur le site (ces spots sont
+mentionnés dans les tableaux Baignade / Plans B / Règles), mais tu peux quand même
+les ajouter ici si tu veux les avoir sous la main pour toi.
 
 Conseil taille : ~1200px de large suffit largement pour un site mobile, ça reste léger
 en 4G/3G dans les gorges. Renomme simplement tes photos avec ces noms exacts.
